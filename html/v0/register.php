@@ -3,6 +3,7 @@ include_once('../lib/SSDB.php');
 include_once('../lib/helper.php');
 include_once('GameData.php');
 
+$ip = $_SERVER['HTTP_CLIENT_IP'];
 $msg = helper_receiveMsg();
 if (empty($msg) == true) {
 	helper_sendMsg(array('errno' => 1100));
@@ -28,7 +29,8 @@ $userData = array (
 	'nickname' => $nickname,
 	'sex' => $sex,
 	'headimgurl' => $headimgurl,
-	'city' => $city
+	'city' => $city,
+	'ip' => $ip
 );
 
 $user = $gameData->getUser($unionid);
@@ -41,8 +43,24 @@ else
 	$gameData->addUser($userData);
 }
 
+$user = $gameData->getUser($unionid);
+if (empty($user) == true) {
+	helper_sendMsg(array ('errno' => 1003));
+	exit();
+}
+
 helper_sendMsg(array (
-	'errno' => 1000
+	'errno' => 1000,
+	'unionid' => $user['unionid'],
+	'nickname' => $user['nickname'],
+	'sex' => $user['sex'],
+	'headimgurl' => $user['headimgurl'],
+	'city' => $user['city'],
+	'roomCardNum' => $user['roomCardNum'],
+	'score' => $user['score'],
+	'win' => $user['win'],
+	'lose' => $user['lose'],
+	'ip' => $user['ip']
 ));
 
 ?>

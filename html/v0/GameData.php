@@ -8,6 +8,7 @@ class GameData {
 	private $ssdb;
 	private $user_set = 'user';
 	private $user_set_prefix = 'u_';
+	private $roomresult_set_prefix = 'roomresult_';
 
 	function __construct() {
 		try {
@@ -26,7 +27,7 @@ class GameData {
 		$user['score'] = 0;
 		$user['win'] = 0;
 		$user['lose'] = 0;
-		$user['ip'] = '';
+		$user['level'] = 0;
 		$this->ssdb->hset($this->user_set, $this->user_set_prefix.$user['unionid'], json_encode($user));
 	}
 
@@ -35,7 +36,7 @@ class GameData {
 		if ($userJson) {
 			return json_decode($userJson, true);
 		}
-		return array()
+		return array();
 	}
 
 	public function updateUser($data) {
@@ -51,6 +52,20 @@ class GameData {
 			}
 		}
 		$this->ssdb->hset($this->user_set, $this->user_set_prefix.$unionid, json_encode($user));
+	}
+
+	public function insertRoomResult($unionid, $roomResult) {
+		$roomResult['time'] =  date('Y-m-d G:i:s');
+		$set_name = $this->roomresult_set_prefix . $unionid;
+		//$size = $ssdb->qsize($set_name);
+		$itemStr = json_encode($roomResult);
+		$ret = $ssdb->qpush_front($set_name, $itemStr);
+		return $ret;
+	}
+
+	public function getRoomResults($unionid, $offset) {
+		$set_name = $this->roomresult_set_prefix . $unionid;
+		return $ssdb->qrange($set_name, $offset, 30);
 	}
 }
 

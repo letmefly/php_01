@@ -9,11 +9,12 @@ function helper_receiveMsg() {
 		helper_log('[helper] post data is blank..');
 		return '';
 	}
-    $private_key = "bnhgdcctuiphnfrkn112512"; 	
+    $private_key = "fuck_angelababy"; 	
 	$msgRaw = json_decode($postdata, true);
 	$msgJson = $msgRaw['msg'];
 	$msgSigh = $msgRaw['sign'];
 	if (md5($msgJson . $private_key) != $msgSigh) {
+		helper_log('[helper] sign is not right!!');
 		if ($GLOBALS['DEBUG']) {
 			return $msgRaw;
 		}
@@ -31,7 +32,22 @@ function helper_sendMsg($dataArray) {
 		echo $jsonStr;
 		return;
 	}
-	echo $base64Str;
+	$private_key = "fuck_angelababy";
+	$msg = array('msg' => $base64Str, 'sign' => md5($base64Str . $private_key));
+	echo json_encode($msg);
+}
+function helper_receiveMsg_2() {
+	$postdata = file_get_contents("php://input");
+	if ($postdata == '') {
+		helper_log('[helper] post data is blank..');
+		return '';
+	}
+	$msg = json_decode($postdata, true);
+	return $msg;
+}
+function helper_sendMsg_2($dataArray) {
+	$msgStr = json_encode($dataArray);
+	echo $msgStr;
 }
 function helper_getInsertSQL($tableName, $dataArray) {
 	$str1 = '';
@@ -72,4 +88,18 @@ function helper_getUpdateSQL($tableName, $keyName, $dataArray) {
 	
 	return $sql;
 }
+
+function helper_getIP() {
+	$ip = "";
+	if (getenv("HTTP_CLIENT_IP"))
+		$ip = getenv("HTTP_CLIENT_IP");
+	else if(getenv("HTTP_X_FORWARDED_FOR"))
+		$ip = getenv("HTTP_X_FORWARDED_FOR");
+	else if(getenv("REMOTE_ADDR"))
+		$ip = getenv("REMOTE_ADDR");
+	else 
+		$ip = "";
+	return $ip;
+}
+
 ?>

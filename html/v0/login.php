@@ -3,7 +3,8 @@ include_once('../lib/SSDB.php');
 include_once('../lib/helper.php');
 include_once('GameData.php');
 
-$ip = $_SERVER['HTTP_CLIENT_IP'];
+$clientIp = helper_getIP();
+if (!$clientIp) {$clientIp="unknown";}
 
 $msg = helper_receiveMsg();
 if (empty($msg) == true) {
@@ -13,6 +14,10 @@ if (empty($msg) == true) {
 }
 
 $unionid = $msg['unionid'];
+$nickname = $msg['nickname'];
+$sex = $msg['sex'];
+$headimgurl = $msg['headimgurl'];
+$city = $msg['city'];
 
 $gameData = new GameData ();
 if (!$gameData) {
@@ -21,7 +26,25 @@ if (!$gameData) {
 	exit();
 }
 
-$gameData->updateUser(array('unionid' => $unionid, 'ip' => $ip));
+$userData = array (
+	'unionid' => $unionid,
+	'nickname' => $nickname,
+	'sex' => $sex,
+	'headimgurl' => $headimgurl,
+	'city' => $city,
+	'ip' => $clientIp
+);
+
+$user = $gameData->getUser($unionid);
+if (empty($user) == false)
+{
+	$gameData->updateUser($userData);
+} 
+else 
+{
+	$gameData->addUser($userData);
+}
+
 $user = $gameData->getUser($unionid);
 if (empty($user) == true) {
 	helper_sendMsg(array ('errno' => 1003));
@@ -39,7 +62,8 @@ helper_sendMsg(array (
 	'score' => $user['score'],
 	'win' => $user['win'],
 	'lose' => $user['lose'],
-	'ip' => $user[ip]
+	'ip' => $user['ip'],
+	'level' => $user['level']
 ));
 
 ?>
