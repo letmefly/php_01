@@ -59,13 +59,14 @@ class GameData {
 		$set_name = $this->roomresult_set_prefix . $unionid;
 		//$size = $ssdb->qsize($set_name);
 		$itemStr = json_encode($roomResult);
-		$ret = $ssdb->qpush_front($set_name, $itemStr);
+		$ret = $this->ssdb->qpush_front($set_name, $itemStr);
 		return $ret;
 	}
 
 	public function getRoomResults($unionid, $offset) {
 		$set_name = $this->roomresult_set_prefix . $unionid;
-		return $ssdb->qrange($set_name, $offset, 30);
+		$ret = $this->ssdb->qrange($set_name, $offset, 30);
+		return $ret;
 	}
 }
 

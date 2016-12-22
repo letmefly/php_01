@@ -12,7 +12,7 @@ if (empty($msg) == true) {
 	helper_log('receiveMsg invalid');
 	exit();
 }
-
+	
 $unionid = $msg['unionid'];
 $offset = $msg['offset'];
 $gameData = new GameData ();
@@ -23,7 +23,9 @@ if (!$gameData) {
 }
 $offset = 0;
 $roomResult = $gameData->getRoomResults($unionid, $offset);
-
-helper_sendMsg($roomResult);
+helper_sendMsg(array(
+	'errno' => 1000,
+	'roomResult' => $roomResult
+));
 
 ?>
