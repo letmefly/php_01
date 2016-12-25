@@ -1,0 +1,15 @@
+DROP TABLE IF EXISTS op_user;
+CREATE TABLE `op_user` (
+  `uid` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `unionid` varchar(32) NOT NULL,
+  `nickname` varchar(32) NOT NULL,
+  `sex` int unsigned NOT NULL,
+  `headimgurl` varchar(32) NOT NULL,
+  `city` varchar(32) NOT NULL,
+  `roomCardNum` int unsigned NOT NULL,
+  `score` int unsigned NOT NULL,
+  `win` int unsigned NOT NULL,
+  `lose` int unsigned NOT NULL, 
+  `level` int unsigned NOT NULL,
+   PRIMARY KEY (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

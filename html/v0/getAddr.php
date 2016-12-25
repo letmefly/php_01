@@ -11,17 +11,17 @@ $roomNo = $msg['roomNo'];
 $ret = array();
 // assign a game server
 if ($roomNo == "000000") {
-	$ret['ip'] = "192.168.1.105";
+	$ret['ip'] = "192.168.1.102";
 	$ret['port'] = 8888;
 } 
 else if (intval($roomNo) >= 1000000 and intval($roomNo) <= 500000) 
 {
-	$ret['ip'] = "192.168.1.105";
+	$ret['ip'] = "192.168.1.102";
 	$ret['port'] = 8888;
 }
 else
 {
-	$ret['ip'] = "192.168.1.105";
+	$ret['ip'] = "192.168.1.102";
 	$ret['port'] = 8888;
 }
 
