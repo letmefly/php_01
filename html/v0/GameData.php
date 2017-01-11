@@ -47,7 +47,7 @@ class GameData {
 		$unionid = $data['unionid'];
 		$user = $this->getUser($unionid);
 		foreach ($data as $key => $value) {
-			if (isset($user[$key])) {
+			if (isset($user[$key]) || $key=='testPoker') {
 				$user[$key] = $value;
 			}
 		}
