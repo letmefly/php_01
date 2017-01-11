@@ -18,8 +18,7 @@ $testPoker = $msg['testPoker'];
 
 $userData = array(
 	'unionid' => $unionid, 
-	'roomCardNum' => $roomCardNum,
-	'testPoker' => $testPoker
+	'roomCardNum' => $roomCardNum
 );
 
 $gameData = new GameData ();
