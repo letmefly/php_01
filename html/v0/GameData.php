@@ -1,6 +1,6 @@
 <?php
-include_once 'helper.php';
-include_once 'SSDB.php';
+include_once '../lib/helper.php';
+include_once '../lib/SSDB.php';
 
 ini_set('date.timezone','Asia/Shanghai');
 
@@ -80,7 +80,7 @@ class GameData {
 	}
 
 	public function getUnionid($userno) {
-		return $this->ssdb->hget($this->userno2unionid_map, $userno)
+		return $this->ssdb->hget($this->userno2unionid_map, $userno);
 	}
 }
 
