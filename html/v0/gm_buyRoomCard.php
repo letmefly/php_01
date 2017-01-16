@@ -13,7 +13,8 @@ if (empty($msg) == true) {
 	exit();
 }
 
-$unionid = $msg['unionid'];
+$userno = $msg['userno'];
+$buyRoomCardNum = $msg['room_card_num'];
 
 $gameData = new GameData ();
 if (!$gameData) {
@@ -22,25 +23,23 @@ if (!$gameData) {
 	exit();
 }
 
+$unionid = $gameData->getUnionid($userno);
 $user = $gameData->getUser($unionid);
 if (empty($user) == true) {
 	helper_sendMsg_2(array ('errno' => 1003));
 	exit();
 }
 
+$updateData = array(
+	'unionid' => $user['unionid'],
+	'roomCardNum' => $user['roomCardNum']+$buyRoomCardNum
+);
+
+$gameData->updateUser($updateData);
+
 helper_sendMsg_2(array (
 	'errno' => 1000,
-	'unionid' => $user['unionid'],
-	'nickname' => $user['nickname'],
-	'sex' => $user['sex'],
-	'headimgurl' => $user['headimgurl'],
-	'city' => $user['city'],
-	'roomCardNum' => $user['roomCardNum'],
-	'score' => $user['score'],
-	'win' => $user['win'],
-	'lose' => $user['lose'],
-	'ip' => $user['ip'],
-	'level' => $user['level'],
+	'roomCardNum' => $user['roomCardNum']+$buyRoomCardNum,
 	'userno' => $user['userno']
 ));
 

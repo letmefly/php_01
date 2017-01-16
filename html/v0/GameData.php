@@ -8,6 +8,7 @@ class GameData {
 	private $ssdb;
 	private $user_set = 'user';
 	private $user_set_prefix = 'u_';
+	private $userno2unionid_map = 'userno2unionid';
 	private $roomresult_set_prefix = 'roomresult_';
 
 	function __construct() {
@@ -28,15 +29,24 @@ class GameData {
 		$user['win'] = 0;
 		$user['lose'] = 0;
 		$user['level'] = 0;
+		$user['userno'] = $this->ssdb->hsize($this->user_set)+1+100000;
 		$this->ssdb->hset($this->user_set, $this->user_set_prefix.$user['unionid'], json_encode($user));
+		$this->ssdb->hset($this->userno2unionid_map, $user['userno'], $user['unionid']);
 	}
 
 	public function getUser($unionid) {
+		$ret = array();
 		$userJson = $this->ssdb->hget($this->user_set, $this->user_set_prefix.$unionid);
 		if ($userJson) {
-			return json_decode($userJson, true);
+			$ret = json_decode($userJson, true);
+			if (isset($ret['userno']) == false) {
+				$userno = rand(1000,99999);
+				$ret['userno'] = $userno;
+				$this->ssdb->hset($this->userno2unionid_map, $userno, $ret['unionid']);
+				$this->updateUser($ret);
+			}
 		}
-		return array();
+		return $ret;
 	}
 
 	public function updateUser($data) {
@@ -67,6 +77,10 @@ class GameData {
 		$set_name = $this->roomresult_set_prefix . $unionid;
 		$ret = $this->ssdb->qrange($set_name, $offset, 30);
 		return $ret;
+	}
+
+	public function getUnionid($userno) {
+		return $this->ssdb->hget($this->userno2unionid_map, $userno)
 	}
 }
 

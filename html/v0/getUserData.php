@@ -40,7 +40,8 @@ helper_sendMsg(array (
 	'win' => $user['win'],
 	'lose' => $user['lose'],
 	'ip' => $user['ip'],
-	'level' => $user['level']
+	'level' => $user['level'],
+	'userno' => $user['userno']
 ));
 
 ?>
