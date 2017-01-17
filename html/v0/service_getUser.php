@@ -41,7 +41,7 @@ helper_sendMsg_2(array (
 	'lose' => $user['lose'],
 	'ip' => $user['ip'],
 	'level' => $user['level'],
-	'userno' => $user['userno']
+	'userno' => intval($user['userno'])
 ));
 
 ?>

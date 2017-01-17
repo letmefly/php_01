@@ -41,9 +41,9 @@ class GameData {
 			$ret = json_decode($userJson, true);
 			if (isset($ret['userno']) == false) {
 				$userno = rand(1000,99999);
-				$ret['userno'] = $userno;
+				$ret['userno'] = ''.$userno;
 				$this->ssdb->hset($this->userno2unionid_map, ''.$userno, $ret['unionid']);
-				$this->updateUser(array('unionid' =>$unionid, 'userno' => $userno));
+				$this->updateUser(array('unionid' =>$unionid, 'userno' => ''.$userno));
 			}
 		}
 		return $ret;
