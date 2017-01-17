@@ -31,7 +31,7 @@ class GameData {
 		$user['level'] = 0;
 		$user['userno'] = $this->ssdb->hsize($this->user_set)+1+100000;
 		$this->ssdb->hset($this->user_set, $this->user_set_prefix.$user['unionid'], json_encode($user));
-		$this->ssdb->hset($this->userno2unionid_map, $user['userno'], $user['unionid']);
+		$this->ssdb->hset($this->userno2unionid_map, ''.$user['userno'], $user['unionid']);
 	}
 
 	public function getUser($unionid) {
@@ -42,8 +42,8 @@ class GameData {
 			if (isset($ret['userno']) == false) {
 				$userno = rand(1000,99999);
 				$ret['userno'] = $userno;
-				$this->ssdb->hset($this->userno2unionid_map, $userno, $ret['unionid']);
-				$this->updateUser($ret);
+				$this->ssdb->hset($this->userno2unionid_map, ''.$userno, $ret['unionid']);
+				$this->updateUser(array('unionid' =>$unionid, 'userno' => $userno));
 			}
 		}
 		return $ret;
@@ -80,7 +80,7 @@ class GameData {
 	}
 
 	public function getUnionid($userno) {
-		return $this->ssdb->hget($this->userno2unionid_map, $userno);
+		return $this->ssdb->hget($this->userno2unionid_map, ''.$userno);
 	}
 }
 
