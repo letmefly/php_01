@@ -13,7 +13,8 @@ if (empty($msg) == true) {
 	exit();
 }
 
-$userno = $msg['userno'];
+//$userno = $msg['userno'];
+$unionid = $msg['unionid'];
 $buyRoomCardNum = $msg['room_card_num'];
 
 $gameData = new GameData ();
@@ -23,7 +24,7 @@ if (!$gameData) {
 	exit();
 }
 
-$unionid = $gameData->getUnionid($userno);
+//$unionid = $gameData->getUnionid($userno);
 $user = $gameData->getUser($unionid);
 if (empty($user) == true) {
 	helper_sendMsg_2(array ('errno' => 1003));

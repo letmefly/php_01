@@ -13,7 +13,7 @@ if (empty($msg) == true) {
 	exit();
 }
 
-$sender_userno = $msg['sender_userno'];
+$sender_unionid = $msg['sender_unionid'];
 $receiver_userno = $msg['receiver_userno'];
 $room_card_num = $msg['room_card_num'];
 
@@ -24,7 +24,7 @@ if (!$gameData) {
 	exit();
 }
 
-$sender_unionid = $gameData->getUnionid($sender_userno);
+//$sender_unionid = $gameData->getUnionid($sender_userno);
 $receiver_unionid = $gameData->getUnionid($receiver_userno);
 $sender_user = $gameData->getUser($sender_unionid);
 $receiver_user = $gameData->getUser($receiver_unionid);

@@ -24,7 +24,10 @@ if (!$gameData || !$unionid) {
 }
 
 $gameData->updateUser($userData);
-$gameData->insertRoomResult($unionid, $roomResult);
+
+if (empty($roomResult) == false) {
+	$gameData->insertRoomResult($unionid, $roomResult);
+}
 
 helper_sendMsg_2(array('errno' => 1000));
 
