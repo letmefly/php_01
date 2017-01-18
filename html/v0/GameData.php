@@ -29,6 +29,8 @@ class GameData {
 		$user['win'] = 0;
 		$user['lose'] = 0;
 		$user['level'] = 0;
+		$user['isInvited'] = 1;
+		$user['inviteTimes'] = 0;
 		$user['userno'] = $this->ssdb->hsize($this->user_set)+1+100000;
 		$this->ssdb->hset($this->user_set, $this->user_set_prefix.$user['unionid'], json_encode($user));
 		$this->ssdb->hset($this->userno2unionid_map, ''.$user['userno'], $user['unionid']);
@@ -43,7 +45,7 @@ class GameData {
 				$userno = rand(1000,99999);
 				$ret['userno'] = ''.$userno;
 				$this->ssdb->hset($this->userno2unionid_map, ''.$userno, $ret['unionid']);
-				$this->updateUser(array('unionid' =>$unionid, 'userno' => ''.$userno));
+				//$this->updateUser(array('unionid' =>$unionid, 'userno' => ''.$userno));
 			}
 		}
 		return $ret;
@@ -57,9 +59,11 @@ class GameData {
 		$unionid = $data['unionid'];
 		$user = $this->getUser($unionid);
 		foreach ($data as $key => $value) {
-			if (isset($user[$key]) || $key=='userno') {
-				$user[$key] = $value;
-			}
+			$user[$key] = $value;
+
+			//if (isset($user[$key]) || $key=='userno' || $key=='isInvited' || $key == "inviteTimes") {
+			//	$user[$key] = $value;
+			//}
 		}
 		$this->ssdb->hset($this->user_set, $this->user_set_prefix.$unionid, json_encode($user));
 	}

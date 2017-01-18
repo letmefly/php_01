@@ -41,7 +41,8 @@ helper_sendMsg_2(array (
 	'lose' => $user['lose'],
 	'ip' => $user['ip'],
 	'level' => $user['level'],
-	'userno' => intval($user['userno'])
+	'userno' => intval($user['userno']),
+	'isInvited' => $user['isInvited']
 ));
 
 ?>
