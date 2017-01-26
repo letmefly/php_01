@@ -31,6 +31,7 @@ class GameData {
 		$user['level'] = 0;
 		$user['isInvited'] = 1;
 		$user['inviteTimes'] = 0;
+		$user['redPackVal'] = 1000;
 		$user['userno'] = $this->ssdb->hsize($this->user_set)+1+100000;
 		$this->ssdb->hset($this->user_set, $this->user_set_prefix.$user['unionid'], json_encode($user));
 		$this->ssdb->hset($this->userno2unionid_map, ''.$user['userno'], $user['unionid']);
@@ -69,19 +70,33 @@ class GameData {
 	}
 
 	public function insertRoomResult($unionid, $roomResult) {
-		$roomResult['time'] =  date('Y-m-d G:i:s');
+		$roomResult['t'] =  date('Y-m-d G:i:s');
 		$set_name = $this->roomresult_set_prefix . $unionid;
 		//$size = $ssdb->qsize($set_name);
 		$itemStr = json_encode($roomResult);
 		$ret = $this->ssdb->qpush_front($set_name, $itemStr);
 		return $ret;
-	}
+	} 
 
 	public function getRoomResults($unionid, $offset) {
 		$set_name = $this->roomresult_set_prefix . $unionid;
 		$ret = $this->ssdb->qrange($set_name, $offset, 30);
 		return $ret;
 	}
+
+	public function insertExchangeRecord($unionid, $record) {
+		$record['t'] = date('Y-m-d G:i:s');
+		$set_name = "ex_" . $unionid;
+		$itemStr = json_encode($record);
+		$ret = $this->ssdb->qpush_front($set_name, $itemStr);
+		return $ret;
+	}
+
+	public function getExchangeRecord($unionid, $offset) {
+		$set_name = "ex_" . $unionid;
+		$ret = $this->ssdb->qrange($set_name, $offset, 30);
+		return $ret;
+	}		
 
 	public function getUnionid($userno) {
 		return $this->ssdb->hget($this->userno2unionid_map, ''.$userno);

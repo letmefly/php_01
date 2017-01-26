@@ -65,7 +65,8 @@ helper_sendMsg(array (
 	'ip' => $user['ip'],
 	'level' => $user['level'],
 	'userno' => intval($user['userno']),
-	'inviteTimes' => $user['inviteTimes']
+	'inviteTimes' => $user['inviteTimes'],
+	'redPackVal' => $user['redPackVal']
 ));
 
 ?>
