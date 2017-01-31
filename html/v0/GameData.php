@@ -25,13 +25,13 @@ class GameData {
 
 	public function addUser($user) {
 		$user['roomCardNum'] = 1000;
-		$user['score'] = 0;
+		$user['score'] = 1000;
 		$user['win'] = 0;
 		$user['lose'] = 0;
 		$user['level'] = 0;
 		$user['isInvited'] = 1;
 		$user['inviteTimes'] = 0;
-		$user['redPackVal'] = 1000;
+		$user['redPackVal'] = 0;
 		$user['userno'] = $this->ssdb->hsize($this->user_set)+1+100000;
 		$this->ssdb->hset($this->user_set, $this->user_set_prefix.$user['unionid'], json_encode($user));
 		$this->ssdb->hset($this->userno2unionid_map, ''.$user['userno'], $user['unionid']);
