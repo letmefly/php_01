@@ -41,7 +41,9 @@ helper_sendMsg(array (
 	'lose' => $user['lose'],
 	'ip' => $user['ip'],
 	'level' => $user['level'],
-	'userno' => $user['userno']
+	'userno' => $user['userno'],
+	'inviteTimes' => $user['inviteTimes'],
+	'redPackVal' => $user['redPackVal']	
 ));
 
 ?>
