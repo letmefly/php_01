@@ -1,7 +1,8 @@
 <?php
 $DEBUG = false;
 function helper_log($str) {
-	error_log($str . "\r\n", 3, '/tmp/dizhu.log');
+	//error_log($str . "\r\n", 3, '/tmp/dizhu.log');
+	file_put_contents('/tmp/dizhu.log',$str."\r\n",FILE_APPEND);
 }
 function helper_receiveMsg() {
 	$postdata = file_get_contents("php://input");

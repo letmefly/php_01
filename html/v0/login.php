@@ -3,6 +3,7 @@ include_once('../lib/SSDB.php');
 include_once('../lib/helper.php');
 include_once('GameData.php');
 
+
 $clientIp = helper_getIP();
 if (!$clientIp) {$clientIp="unknown";}
 
