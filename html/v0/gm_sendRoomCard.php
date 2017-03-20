@@ -6,9 +6,9 @@ include_once('GameData.php');
 $clientIp = helper_getIP();
 // check ip if invalid access
 
-$msg = helper_receiveMsg_2();
+$msg = helper_receiveMsg();
 if (empty($msg) == true) {
-	helper_sendMsg_2(array('errno' => 1100));
+	helper_sendMsg(array('errno' => 1100));
 	helper_log('receiveMsg invalid');
 	exit();
 }
@@ -19,7 +19,7 @@ $room_card_num = $msg['room_card_num'];
 
 $gameData = new GameData ();
 if (!$gameData) {
-	helper_sendMsg_2(array('errno' => 1001));
+	helper_sendMsg(array('errno' => 1001));
 	helper_log('gameData init fail');
 	exit();
 }
@@ -29,12 +29,12 @@ $receiver_unionid = $gameData->getUnionid($receiver_userno);
 $sender_user = $gameData->getUser($sender_unionid);
 $receiver_user = $gameData->getUser($receiver_unionid);
 if (empty($sender_unionid) == true or empty($receiver_user) == true) {
-	helper_sendMsg_2(array ('errno' => 1003));
+	helper_sendMsg(array ('errno' => 1003));
 	exit();
 }
 
 if ($sender_user['roomCardNum']-$room_card_num < 0) {
-	helper_sendMsg_2(array ('errno' => 1004));
+	helper_sendMsg(array ('errno' => 1004));
 	exit();
 }
 
@@ -50,7 +50,7 @@ $receiver_updateData = array(
 $gameData->updateUser($sender_updateData);
 $gameData->updateUser($receiver_updateData);
 
-helper_sendMsg_2(array (
+helper_sendMsg(array (
 	'errno' => 1000,
 	'sender_userno' => $sender_unionid,
 	'receiver_userno' => $receiver_userno,

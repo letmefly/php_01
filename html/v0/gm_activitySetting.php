@@ -12,8 +12,7 @@ if (empty($msg) == true) {
 	exit();
 }
 
-$userno = $msg['userno'];
-$loginSwitch = $msg['loginSwitch'];
+$activitySwitch = $msg['activitySwitch'];
 
 $gameData = new GameData ();
 if (!$gameData) {
@@ -21,12 +20,7 @@ if (!$gameData) {
 	helper_log('gameData init fail');
 	exit();
 }
-$unionid = $gameData->getUnionid($userno);
-$userData = array(
-	'unionid' => $unionid,
-	'loginSwitch' => $loginSwitch
-);
-$gameData->updateUser($userData);
+$unionid = $gameData->setActivity($activitySwitch);
 
 helper_sendMsg(array('errno' => 1000));
 

@@ -52,6 +52,13 @@ if (empty($user) == true) {
 	exit();
 }
 
+if (isset($user['loginSwitch'])) {
+	if ($user['loginSwitch'] == 'off') {
+		helper_sendMsg(array ('errno' => 1003));
+		exit();
+	}
+}
+
 helper_sendMsg(array (
 	'errno' => 1000,
 	'unionid' => $user['unionid'],

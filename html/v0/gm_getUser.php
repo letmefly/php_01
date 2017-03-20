@@ -6,29 +6,29 @@ include_once('GameData.php');
 $clientIp = helper_getIP();
 // check ip if invalid access
 
-$msg = helper_receiveMsg_2();
+$msg = helper_receiveMsg();
 if (empty($msg) == true) {
-	helper_sendMsg_2(array('errno' => 1100));
+	helper_sendMsg(array('errno' => 1100));
 	helper_log('receiveMsg invalid');
 	exit();
 }
 
-$unionid = $msg['unionid'];
+$userno = $msg['userno'];
 
 $gameData = new GameData ();
 if (!$gameData) {
-	helper_sendMsg_2(array('errno' => 1001));
+	helper_sendMsg(array('errno' => 1001));
 	helper_log('gameData init fail');
 	exit();
 }
-
+$unionid = $gameData->getUnionid($userno);
 $user = $gameData->getUser($unionid);
 if (empty($user) == true) {
-	helper_sendMsg_2(array ('errno' => 1003));
+	helper_sendMsg(array ('errno' => 1003));
 	exit();
 }
 
-helper_sendMsg_2(array (
+helper_sendMsg(array (
 	'errno' => 1000,
 	'unionid' => $user['unionid'],
 	'nickname' => $user['nickname'],

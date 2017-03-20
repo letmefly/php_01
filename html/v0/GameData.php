@@ -101,6 +101,14 @@ class GameData {
 	public function getUnionid($userno) {
 		return $this->ssdb->hget($this->userno2unionid_map, ''.$userno);
 	}
+
+	public function setActivity($activitySwitch) {
+		$this->ssdb->set("k_activitySwitch", $activitySwitch);
+	}
+
+	public function getActivity() {
+		$this->ssdb->get("k_activitySwitch");
+	}
 }
 
 ?>
