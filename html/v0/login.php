@@ -18,6 +18,9 @@ $nickname = $msg['nickname'];
 $sex = $msg['sex'];
 $headimgurl = $msg['headimgurl'];
 $city = $msg['city'];
+if (isset($msg['urlencode'])) {
+	$nickname = urldecode($nickname);
+}
 
 $gameData = new GameData ();
 if (!$gameData) {
