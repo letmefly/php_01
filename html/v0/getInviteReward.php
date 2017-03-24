@@ -22,8 +22,17 @@ if (!$gameData) {
 	helper_log('gameData init fail');
 	exit();
 }
-
+// 1002 - user not exist
+// 1003 - user not exist
+// 1004 - user has been invited
+// 1005 - user play times no more than 6
+// 1006 - your invite times is full
+// 1007 - user cannot be yourself
 $targetUnionid = $gameData->getUnionid($targetUserno);
+if ($targetUnionid == $unionid) {
+	helper_sendMsg(array('errno' => 1007));
+	exit();
+}
 if ($targetUnionid) {
 	$targetUserData = $gameData->getUser($targetUnionid);
 	if (empty($targetUserData) == false) {

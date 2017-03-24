@@ -3,7 +3,6 @@ include_once('../lib/SSDB.php');
 include_once('../lib/helper.php');
 include_once('GameData.php');
 
-
 $clientIp = helper_getIP();
 if (!$clientIp) {$clientIp="unknown";}
 
@@ -58,11 +57,11 @@ if (isset($user['loginSwitch'])) {
 		exit();
 	}
 }
-
+$shortNickName = helper_substr($user['nickname'], 4, 0, "UTF-8");
 helper_sendMsg(array (
 	'errno' => 1000,
 	'unionid' => $user['unionid'],
-	'nickname' => $user['nickname'],
+	'nickname' => $shortNickName,
 	'sex' => $user['sex'],
 	'headimgurl' => $user['headimgurl'],
 	'city' => $user['city'],

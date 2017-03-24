@@ -27,11 +27,11 @@ if (empty($user) == true) {
 	helper_sendMsg_2(array ('errno' => 1003));
 	exit();
 }
-
+$shortNickName = helper_substr($user['nickname'], 4, 0, "UTF-8");
 helper_sendMsg_2(array (
 	'errno' => 1000,
 	'unionid' => $user['unionid'],
-	'nickname' => $user['nickname'],
+	'nickname' => $shortNickName,
 	'sex' => $user['sex'],
 	'headimgurl' => $user['headimgurl'],
 	'city' => $user['city'],
