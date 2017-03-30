@@ -17,6 +17,7 @@ $unionid = $msg['unionid'];
 $nickname = $msg['nickname'];
 $sex = $msg['sex'];
 $headimgurl = $msg['headimgurl'];
+$clientOS = $msg['os'];// "ios" or "android" or "win32"
 $city = $msg['city'];
 if (isset($msg['urlencode'])) {
 	$nickname = urldecode($nickname);
@@ -61,6 +62,19 @@ if (isset($user['loginSwitch'])) {
 	}
 }
 $shortNickName = helper_substr($user['nickname'], 4, 0, "UTF-8");
+
+$redPackSwitch = "on";
+if ($clientOS == "ios") {
+	$redPackSwitch = "off";
+}
+else if ($clientOS == "android") {
+	$redPackSwitch = "on";
+}
+else if ($clientOS == "win32") {
+	$redPackSwitch = "off";
+}
+
+
 helper_sendMsg(array (
 	'errno' => 1000,
 	'unionid' => $user['unionid'],
@@ -76,7 +90,8 @@ helper_sendMsg(array (
 	'level' => $user['level'],
 	'userno' => intval($user['userno']),
 	'inviteTimes' => $user['inviteTimes'],
-	'redPackVal' => $user['redPackVal']
+	'redPackVal' => $user['redPackVal'],
+	'redPackSwitch' => $redPackSwitch
 ));
 
 ?>
