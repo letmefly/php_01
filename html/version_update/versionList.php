@@ -1,8 +1,12 @@
 <?php
 //$serverVersionList = array("1.0.1", "1.0.2", "1.0.3", "1.0.4", "1.0.5", "1.0.6");
-$serverVersionList = array();
-$updateVersionSize = array("1.0.0"=>2048, "1.0.1"=>2345);
-$serverAddr = "http://192.168.56.101/php_01/html/version_update/";
+// config here
+$serverVersionList = array("1.0.1");
+// config here
+$updateVersionSize = array("1.0.1"=>1787);
+
+$totalSize = 0;
+$serverAddr = "http://192.168.16.121/php_01/html/version_update/";
 //$serverAddr = "http://chess.ifunhealth.com:8080/html/version_update/";
 $client_version = $_GET['clientVersion'];
 $client_os = $_GET['clientOS'];
@@ -23,10 +27,11 @@ foreach ($serverVersionList as $value) {
                             "packageUrl"=>$serverAddr.$value."/Hi88.zip");
         array_push($updateVersionList, $arrayName);
     }
+	$totalSize = $totalSize + $updateVersionSize[$value];
 }
 if ($client_os!="ios") {
     //$updateVersionList = array("1.0.3");
 }
-$arr = array("code"=>200, "list"=>$updateVersionList, "clientOS"=>$client_os, "totalSize"=>1*1024);
+$arr = array("code"=>200, "list"=>$updateVersionList, "clientOS"=>$client_os, "totalSize"=>$totalSize);
 echo stripslashes(json_encode($arr));
 ?>

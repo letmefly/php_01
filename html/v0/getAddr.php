@@ -9,7 +9,7 @@ if (empty($msg) == true) {
 $roomNo = $msg['roomNo'];
 
 $ret = array();
-$ip = "192.168.16.83";
+$ip = "192.168.16.121";
 // assign a game server
 if ($roomNo == "000000") {
 	$ret['ip'] = $ip;

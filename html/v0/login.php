@@ -63,7 +63,7 @@ if (isset($user['loginSwitch'])) {
 }
 $shortNickName = helper_substr($user['nickname'], 4, 0, "UTF-8");
 
-$redPackSwitch = "on";
+$redPackSwitch = "off";
 if ($clientOS == "ios") {
 	$redPackSwitch = "off";
 }
@@ -71,7 +71,7 @@ else if ($clientOS == "android") {
 	$redPackSwitch = "on";
 }
 else if ($clientOS == "win32") {
-	$redPackSwitch = "off";
+	$redPackSwitch = "on";
 }
 
 

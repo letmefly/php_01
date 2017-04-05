@@ -109,6 +109,13 @@ class GameData {
 	public function getActivity() {
 		$this->ssdb->get("k_activitySwitch");
 	}
+
+	public function getAppstoreOrderId($orderId) {
+		return $this->ssdb->hget("appstore_orderid_set", $orderId);
+	}
+	public function setAppstoreOrderId($orderId, $val) {
+		$this->ssdb->hset("appstore_orderid_set", $orderId, $val);
+	}
 }
 
 ?>
