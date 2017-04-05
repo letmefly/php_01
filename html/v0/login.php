@@ -78,7 +78,7 @@ else if ($clientOS == "win32") {
 helper_sendMsg(array (
 	'errno' => 1000,
 	'unionid' => $user['unionid'],
-	'nickname' => $shortNickName,
+	'nickname' => $user['nickname'],
 	'sex' => $user['sex'],
 	'headimgurl' => $user['headimgurl'],
 	'city' => $user['city'],
