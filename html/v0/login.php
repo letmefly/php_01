@@ -23,6 +23,15 @@ if (isset($msg['urlencode'])) {
 	$nickname = urldecode($nickname);
 }
 
+$password = "";
+$loginType = "weixin";
+if (isset($msg['password'])) {
+	$password = $msg['password'];
+}
+if (isset($msg['loginType'])) {
+	$loginType = $msg['loginType'];
+}
+
 $gameData = new GameData ();
 if (!$gameData) {
 	helper_sendMsg(array('errno' => 1001));
@@ -36,17 +45,41 @@ $userData = array (
 	'sex' => $sex,
 	'headimgurl' => $headimgurl,
 	'city' => $city,
-	'ip' => $clientIp
+	'ip' => $clientIp,
+	'password' => $password
 );
 
 $user = $gameData->getUser($unionid);
 if (empty($user) == false)
 {
-	$gameData->updateUser($userData);
+	if ($loginType == "weixin") {
+		$gameData->updateUser($userData);
+	}
+	else if ($loginType == "my_login") {
+		if ($user['password'] != $password) {
+			// user not exist
+			helper_sendMsg(array ('errno' => 5001));
+			exit();
+		}
+	}
+	else if ($loginType == "my_reg") {
+		// user aleay exits
+		helper_sendMsg(array ('errno' => 5002));
+		exit();
+	}
+	
 } 
 else 
 {
-	$gameData->addUser($userData);
+	if ($loginType == "weixin" or $loginType == "my_reg") {
+		$gameData->addUser($userData);
+	}
+	else {
+		// user not exist
+		helper_sendMsg(array ('errno' => 5000));
+		exit();
+	}
+	
 }
 
 $user = $gameData->getUser($unionid);
