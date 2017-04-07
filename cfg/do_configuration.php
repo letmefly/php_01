@@ -1,8 +1,8 @@
 <?php
 $csvFile = fopen("csv/names.csv","r");
 $count = 1;
-$imageBaseUrl = "http://192.168.16.83:80/php_01/cfg/jpg/";
-$loginUrl = "http://192.168.16.83:80/php_01/html/v0/login.php";
+$imageBaseUrl = "http://127.0.0.1:80/php_01/cfg/jpg/";
+$loginUrl = "http://127.0.0.1:80/php_01/html/v0/login.php";
 //$loginUrl = "http://chess.ifunhealth.com:8080/html/v0/login.php";
 
 function http_post($url, $post_data = '', $timeout = 5){//curl
@@ -72,7 +72,9 @@ while(!feof($csvFile)) {
 		"sex" => $sex,
 		"headimgurl" => $headimgurl,
 		"city" => $city,
-		"urlencode" => 1
+		"urlencode" => 1,
+		"os" => "ios",
+        "loginType" => "weixin"
 	);
 
 	//$dataStr = json_encode($data);
