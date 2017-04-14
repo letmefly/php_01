@@ -25,7 +25,7 @@ class GameData {
 
 	public function addUser($user) {
 		$user['roomCardNum'] = 88888;
-		$user['score'] = 88888;
+		$user['score'] = 30;
 		$user['win'] = 0;
 		$user['lose'] = 0;
 		$user['level'] = 0;

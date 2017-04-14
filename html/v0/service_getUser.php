@@ -4,7 +4,9 @@ include_once('../lib/helper.php');
 include_once('GameData.php');
 
 $clientIp = helper_getIP();
-// check ip if invalid access
+if ($clientIp != "127.0.0.1") {
+	exit();
+}
 
 $msg = helper_receiveMsg_2();
 if (empty($msg) == true) {
@@ -14,6 +16,10 @@ if (empty($msg) == true) {
 }
 
 $unionid = $msg['unionid'];
+$token = $msg['token'];
+if ($token != "this_token") {
+	exit();
+}
 
 $gameData = new GameData ();
 if (!$gameData) {
