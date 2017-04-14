@@ -116,6 +116,28 @@ class GameData {
 	public function setAppstoreOrderId($orderId, $val) {
 		$this->ssdb->hset("appstore_orderid_set", $orderId, $val);
 	}
+	public function getRedPackCount() {
+		return $this->ssdb->get("redpack_count");
+	}
+	public function addRedPackCount($redPackVal) {
+		$redPackCount = $this->getRedPackCount();
+		if (empty($redPackCount)) {
+			$redPackCount = 0;
+		}
+		$redPackCount = $redPackVal + $redPackCount;
+		$this->ssdb->set("redpack_count", $redPackCount);
+	}
+	public function getChargeCount() {
+		return $this->ssdb->get("charge_count");
+	}
+	public function addChargeCount($chargeVal) {
+		$chargeCount = $this->getChargeCount();
+		if (empty($chargeCount)) {
+			$chargeCount = 0;
+		}
+		$chargeCount = $chargeVal + $chargeCount;
+		$this->ssdb->set("charge_count", $chargeCount);
+	}
 }
 
 ?>

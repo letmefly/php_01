@@ -55,7 +55,7 @@ if (!$gameData) {
 $isValid = false;
 if ($platform == "appstore") {
 	$ret = appstore_verify($receipt_data, 1);
-	if ($ret['status'] == 0) {
+	if ($ret['status'] == 0 && $ret['bid'] == "com.ywxx.doudizhu") {
 		$val = $gameData->getAppstoreOrderId($ret['receipt']['transaction_id']);
 		if (!($val == 1)) {
 			$isValid = true;
@@ -80,7 +80,22 @@ $updateData = array(
 	'unionid' => $unionid,
 	'score' => $user['score'] + $addCoin
 );
+$chargeMoney = 0;
+if ($addCoin == 30) {
+	$chargeMoney = 600;
+} else if ($addCoin == 60) {
+	$chargeMoney = 1200;
+} else if ($addCoin == 125) {
+	$chargeMoney = 2500;
+} else if ($addCoin == 200) {
+	$chargeMoney = 4000;
+} else if ($addCoin == 340) {
+	$chargeMoney = 6800;
+} else if ($addCoin == 440) {
+	$chargeMoney = 8800;
+}
 $gameData->updateUser($updateData);
+$gameData->addChargeCount($chargeMoney);
 
 helper_sendMsg(array (
 	'errno' => 1000,
