@@ -107,6 +107,15 @@ else if ($clientOS == "win32") {
 	$redPackSwitch = "on";
 }
 
+if ($gameData->isAddCoinToday($unionid) == false) {
+	if ($user['score'] < 24) {
+		$updateData = array(
+			'unionid' => $unionid,
+			'score' => 24
+		);
+		$gameData->updateUser($updateData);
+	}
+}
 
 helper_sendMsg(array (
 	'errno' => 1000,

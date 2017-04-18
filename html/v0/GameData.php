@@ -138,6 +138,17 @@ class GameData {
 		$chargeCount = $chargeVal + $chargeCount;
 		$this->ssdb->set("charge_count", $chargeCount);
 	}
+	public function isAddCoinToday($unionid) {
+		$loginSetName = "login-".date("Y-m-d");
+		$ret = $this->ssdb->hget($loginSetName, $unionid);
+		if ($ret) {
+			return true;
+		}
+		else {
+			$this->ssdb->hset($loginSetName, $unionid, 1);
+			return false;
+		}
+	}
 }
 
 ?>
