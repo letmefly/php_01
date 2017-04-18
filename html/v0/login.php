@@ -114,6 +114,7 @@ if ($gameData->isAddCoinToday($unionid) == false) {
 			'score' => 24
 		);
 		$gameData->updateUser($updateData);
+		$user['score'] = 24;
 	}
 }
 
