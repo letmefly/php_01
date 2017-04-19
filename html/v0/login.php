@@ -122,6 +122,7 @@ helper_sendMsg(array (
 	'errno' => 1000,
 	'unionid' => $user['unionid'],
 	'nickname' => $user['nickname'],
+	'shortNickName' => $shortNickName,
 	'sex' => $user['sex'],
 	'headimgurl' => $user['headimgurl'],
 	'city' => $user['city'],
