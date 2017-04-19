@@ -106,9 +106,10 @@ else if ($clientOS == "android") {
 else if ($clientOS == "win32") {
 	$redPackSwitch = "on";
 }
-
+$rewardCoinNum = 0;
 if ($gameData->isAddCoinToday($unionid) == false) {
 	if ($user['score'] < 24) {
+		$rewardCoinNum = 24 - $user['score'];
 		$updateData = array(
 			'unionid' => $unionid,
 			'score' => 24
@@ -135,7 +136,8 @@ helper_sendMsg(array (
 	'userno' => intval($user['userno']),
 	'inviteTimes' => $user['inviteTimes'],
 	'redPackVal' => $user['redPackVal'],
-	'redPackSwitch' => $redPackSwitch
+	'redPackSwitch' => $redPackSwitch,
+	'rewardCoinNum' => $rewardCoinNum
 ));
 
 ?>
