@@ -33,7 +33,7 @@ if (!$gameData || !$unionid) {
 
 $gameData->updateUser($userData);
 
-if (empty($roomResult) == false) {
+if (empty($roomResult['history']) == false) {
 	$gameData->insertRoomResult($unionid, $roomResult);
 }
 
