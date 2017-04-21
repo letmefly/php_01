@@ -62,7 +62,10 @@ if ($platform == "appstore") {
 			$gameData->setAppstoreOrderId($ret['receipt']['transaction_id'], 1);
 		}
 	}
-} else {
+}
+else if ($platform == "android") 
+{
+	
 	$isValid = true;
 }
 
