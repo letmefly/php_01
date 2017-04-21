@@ -1,4 +1,6 @@
 <?php
+include_once('../lib/helper.php');
+include_once('GameData.php');
 
 $url = $_SERVER["REQUEST_URI"];
 
@@ -14,5 +16,9 @@ foreach($xml->children() as $child)
 {
   	$rowdata[$child->getName()] = $child->__toString();
 }
+
+helper_log(json_encode($rowdata));
+
+
 echo "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>";
 ?>
