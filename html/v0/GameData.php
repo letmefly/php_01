@@ -149,6 +149,19 @@ class GameData {
 			return false;
 		}
 	}
+
+	public function insertWeixinPayInfo($outTradeNo, $transaction_id, $payInfo) {
+		$this->ssdb->hset("wexin_pay_set", $transaction_id, $payInfo);
+		$this->ssdb->hset("wexin_outTradeNo_set", $outTradeNo, 1);
+	}
+
+	public function getOutTradeNoRecord($outTradeNo) {
+		return $this->ssdb->hget("wexin_outTradeNo_set", $outTradeNo);
+	}
+
+	public function clearOutTradeNoRecord($outTradeNo) {
+		$this->ssdb->hset("wexin_outTradeNo_set", $outTradeNo, 0);
+	}
 }
 
 ?>

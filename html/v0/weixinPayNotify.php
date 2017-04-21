@@ -27,9 +27,11 @@ foreach ($rowdata as $key => $value) {
 }
 $stringA = $stringA . "key=14Nt0EmPY6e741Pan5SHmBeiWQQ3wQwE";
 $sign = strtoupper(md5($stringA));
-if ($sign == $rowdata['sign']) {
+if ($sign == $rowdata['sign'] && $rowdata['return_code'] = "SUCCESS") {
 	$outTradeNo = $rowdata['out_trade_no'];
-	helper_log("sign is right");
+	$transaction_id = $rowdata['transaction_id'];
+	$gameData = new GameData ();
+	$gameData->insertWeixinPayInfo($outTradeNo, $transaction_id, json_encode($rowdata));
 } else {
 	helper_log("sign is not right");
 }

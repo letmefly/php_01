@@ -65,8 +65,13 @@ if ($platform == "appstore") {
 }
 else if ($platform == "android") 
 {
-	
-	$isValid = true;
+	$record = $gameData->getOutTradeNoRecord($receipt_data);
+	if ($record) {
+		$isValid = true;
+		$gameData->clearOutTradeNoRecord($receipt_data);
+	} else {
+		$isValid = false;
+	}
 }
 
 if($isValid == false) {
