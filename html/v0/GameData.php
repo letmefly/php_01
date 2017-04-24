@@ -52,7 +52,7 @@ class GameData {
 		return $ret;
 	}
 
-	public function updateUser2($user, $updateData) {
+	public function updateUser2($user, $data) {
 		if (!$data || !isset($data['unionid'])) {
 			helper_log("[updateUserInfo] param invalid");
 			return;
