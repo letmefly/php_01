@@ -48,7 +48,7 @@ if (empty($msg['dispatchRedPackVal']) == false) {
 	//helper_per_redpack_reward($unionid);
 }
 
-$gameData->updateUser($user, $userData);
+$gameData->updateUser2($user, $userData);
 
 helper_sendMsg_2(array('errno' => 1000));
 
