@@ -140,4 +140,61 @@ function helper_substr($string, $sublen, $start = 0, $code = 'UTF-8')
     }
 }
 
+function helper_getCurl($url)
+{
+    $curl = curl_init($url);
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0); 
+    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
+    curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1); 
+    curl_setopt($curl, CURLOPT_AUTOREFERER, 1);
+    //curl_setopt($curl, CURLOPT_TIMEOUT, self::TIMEOUT);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    $output = curl_exec($curl);
+    curl_close($curl);
+	return json_decode($output,true);
+}
+
+function helper_reward_introducer($unionid) {
+	$timeStamp = time();
+	$privateKey = "test-sign";
+	$tokent = md5($unionid . $timeStamp . $privateKey);
+	$url = "http://127.0.0.1/index.php?r=site/reward_introducer&unionid={$unionid}&op_time={$timeStamp}&token={$tokent}";
+	$ret = helper_getCurl($url);
+	if ($ret['errno'] == 1000) {
+		return $ret['introducer'];
+	}
+	else {
+		return "none_introducer";
+	}
+}
+
+function helper_per_redpack_reward($unionid) {
+	$timeStamp = time();
+	$privateKey = "test-sign";
+	$tokent = md5($unionid . $timeStamp . $privateKey);
+	$url = "http://127.0.0.1/index.php?r=site/per_redpack_reward&unionid={$unionid}&op_time={$timeStamp}&token={$tokent}";
+	$ret = helper_getCurl($url);
+	if ($ret['errno'] == 1000) {
+		return 1;
+	}
+	else {
+		return 0;
+	}
+}
+
+function helper_getCode($unionid, $amount) {
+	$timeStamp = time();
+	$privateKey = "test-sign";
+	$tokent = md5($unionid . $amount . $timeStamp . $privateKey);
+	$url = "http://127.0.0.1/index.php?r=site/redeemcode&unionid={$unionid}&amount={$amount}&op_time={$timeStamp}&token={$tokent}";
+	$ret = helper_getCurl($url);
+	if ($ret['errno'] == 1000) {
+		return $ret['redeemCode'];
+	}
+	else {
+		return "";
+	}
+}
+
 ?>

@@ -52,6 +52,18 @@ class GameData {
 		return $ret;
 	}
 
+	public function updateUser2($user, $updateData) {
+		if (!$data || !isset($data['unionid'])) {
+			helper_log("[updateUserInfo] param invalid");
+			return;
+		}
+		$unionid = $data['unionid'];
+		foreach ($data as $key => $value) {
+			$user[$key] = $value;
+		}
+		$this->ssdb->hset($this->user_set, $this->user_set_prefix.$unionid, json_encode($user));
+	}
+
 	public function updateUser($data) {
 		if (!$data || !isset($data['unionid'])) {
 			helper_log("[updateUserInfo] param invalid");
