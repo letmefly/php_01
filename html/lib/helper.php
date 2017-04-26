@@ -159,7 +159,7 @@ function helper_reward_introducer($unionid) {
 	$timeStamp = time();
 	$privateKey = "test-sign";
 	$tokent = md5($unionid . $timeStamp . $privateKey);
-	$url = "http://127.0.0.1/index.php?r=site/reward_introducer&unionid={$unionid}&op_time={$timeStamp}&token={$tokent}";
+	$url = "http://127.0.0.1/index.php?r=site/reward-introducer&unionid={$unionid}&op_time={$timeStamp}&token={$tokent}";
 	$ret = helper_getCurl($url);
 	if ($ret['errno'] == 1000) {
 		return $ret['introducer'];
@@ -173,7 +173,7 @@ function helper_per_redpack_reward($unionid) {
 	$timeStamp = time();
 	$privateKey = "test-sign";
 	$tokent = md5($unionid . $timeStamp . $privateKey);
-	$url = "http://127.0.0.1/index.php?r=site/per_redpack_reward&unionid={$unionid}&op_time={$timeStamp}&token={$tokent}";
+	$url = "http://127.0.0.1/index.php?r=site/per-redpack-reward&unionid={$unionid}&op_time={$timeStamp}&token={$tokent}";
 	$ret = helper_getCurl($url);
 	if ($ret['errno'] == 1000) {
 		return 1;
