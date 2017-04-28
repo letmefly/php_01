@@ -35,16 +35,16 @@ if (!$gameData || !$unionid) {
 $user = $gameData->getUser($unionid);
 
 // first accept red pack
-if (empty($user['redPackVal']) == true && empty($msg['dispatchRedPackVal']) == false) {
+if (isset($user['redPackVal']) == false && isset($msg['dispatchRedPackVal']) == true) {
 	$ret = helper_reward_introducer($unionid);
 	helper_log($ret);
 }
 
-if (empty($roomResult['history']) == false) {
+if (isset($roomResult['history']) == true) {
 	$gameData->insertRoomResult($unionid, $roomResult);
 }
 
-if (empty($msg['dispatchRedPackVal']) == false) {
+if (isset($msg['dispatchRedPackVal']) == true) {
 	$gameData->addRedPackCount($msg['dispatchRedPackVal']);
 	$ret = helper_per_redpack_reward($unionid);
 	helper_log($ret);
