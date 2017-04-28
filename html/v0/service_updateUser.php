@@ -30,12 +30,12 @@ if (!$gameData || !$unionid) {
 	helper_log('gameData init fail');
 	exit();
 }
-
+helper_log(json_encode($msg));
 //$gameData->updateUser($userData);
 $user = $gameData->getUser($unionid);
 
 // first accept red pack
-if (isset($user['redPackVal']) == false && isset($msg['dispatchRedPackVal']) == true) {
+if (isset($user['redPackVal']) == false && isset($userData['dispatchRedPackVal']) == true) {
 	$ret = helper_reward_introducer($unionid);
 	helper_log($ret);
 }
@@ -44,8 +44,8 @@ if (isset($roomResult['history']) == true) {
 	$gameData->insertRoomResult($unionid, $roomResult);
 }
 
-if (isset($msg['dispatchRedPackVal']) == true) {
-	$gameData->addRedPackCount($msg['dispatchRedPackVal']);
+if (isset($userData['dispatchRedPackVal']) == true) {
+	$gameData->addRedPackCount($userData['dispatchRedPackVal']);
 	$ret = helper_per_redpack_reward($unionid);
 	helper_log($ret);
 }
