@@ -36,7 +36,8 @@ $user = $gameData->getUser($unionid);
 
 // first accept red pack
 if (empty($user['redPackVal']) == true && empty($msg['dispatchRedPackVal']) == false) {
-	helper_reward_introducer($unionid);
+	$ret = helper_reward_introducer($unionid);
+	helper_log($ret);
 }
 
 if (empty($roomResult['history']) == false) {
@@ -45,7 +46,8 @@ if (empty($roomResult['history']) == false) {
 
 if (empty($msg['dispatchRedPackVal']) == false) {
 	$gameData->addRedPackCount($msg['dispatchRedPackVal']);
-	helper_per_redpack_reward($unionid);
+	$ret = helper_per_redpack_reward($unionid);
+	helper_log($ret);
 }
 
 $gameData->updateUser2($user, $userData);
