@@ -14,16 +14,16 @@ if (empty($msg) == true) {
 
 $activityInfo = array();
 
-if (isset($msg['activitySwitch']) {
+if (isset($msg['activitySwitch'])) {
 	$activityInfo['activitySwitch'] = $msg['activitySwitch'];
 }
-if (isset($msg['rate_120']) {
+if (isset($msg['rate_120'])) {
 	$activityInfo['rate_120'] = $msg['rate_120'];
 }
-if (isset($msg['rate_80']) {
+if (isset($msg['rate_80'])) {
 	$activityInfo['rate_80'] = $msg['rate_80'];
 }
-if (isset($msg['rate_40']) {
+if (isset($msg['rate_40'])) {
 	$activityInfo['rate_40'] = $msg['rate_40'];
 	if ($rate_120 + $rate_80 + $rate_40 != 100) {
 		helper_sendMsg(array('errno' => 1200));
