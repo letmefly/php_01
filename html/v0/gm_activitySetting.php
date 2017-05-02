@@ -12,7 +12,25 @@ if (empty($msg) == true) {
 	exit();
 }
 
-$activitySwitch = $msg['activitySwitch'];
+$activityInfo = array();
+
+if (isset($msg['activitySwitch']) {
+	$activityInfo['activitySwitch'] = $msg['activitySwitch'];
+}
+if (isset($msg['rate_120']) {
+	$activityInfo['rate_120'] = $msg['rate_120'];
+}
+if (isset($msg['rate_80']) {
+	$activityInfo['rate_80'] = $msg['rate_80'];
+}
+if (isset($msg['rate_40']) {
+	$activityInfo['rate_40'] = $msg['rate_40'];
+	if ($rate_120 + $rate_80 + $rate_40 != 100) {
+		helper_sendMsg(array('errno' => 1200));
+		helper_log('setting rate invalid');
+		exit();
+	}
+}
 
 $gameData = new GameData ();
 if (!$gameData) {
@@ -20,7 +38,8 @@ if (!$gameData) {
 	helper_log('gameData init fail');
 	exit();
 }
-$unionid = $gameData->setActivity($activitySwitch);
+
+$unionid = $gameData->setActivity($activityInfo);
 
 helper_sendMsg(array('errno' => 1000));
 

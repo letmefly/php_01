@@ -12,15 +12,14 @@ if ($token != "this_token") {
 	exit();
 }
 $gameData = new GameData ();
-$activitySwitch = $gameData->getActivity();
-
-$retVal = 1;
-if ($activitySwitch == "off") {
-	$retVal = 0;
+$actInfo = $gameData->getActivity();
+if (!$actInfo) {
+	$actInfo['activitySwitch'] = 'on';
+	$actInfo['rate_120'] = 33;
+	$actInfo['rate_80'] = 33;
+	$actInfo['rate_40'] = 34;
 }
 
-helper_sendMsg_2(array (
-	'isOpen' => $retVal
-));
+helper_sendMsg_2($actInfo);
 
 ?>

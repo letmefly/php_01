@@ -114,12 +114,17 @@ class GameData {
 		return $this->ssdb->hget($this->userno2unionid_map, ''.$userno);
 	}
 
-	public function setActivity($activitySwitch) {
-		$this->ssdb->set("k_activitySwitch", $activitySwitch);
+	public function setActivity($activityInfo) {
+		$originActInfo = $this->getActivity();
+		foreach ($activityInfo as $key => $value) {
+			$originActInfo[$key] = $value;
+		}
+		$this->ssdb->set("k_activityInfo", json_encode($originActInfo));
 	}
 
 	public function getActivity() {
-		$this->ssdb->get("k_activitySwitch");
+		$str = $this->ssdb->get("k_activityInfo");
+		return json_decode($str, true);
 	}
 
 	public function getAppstoreOrderId($orderId) {
