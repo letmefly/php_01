@@ -37,7 +37,6 @@ $user = $gameData->getUser($unionid);
 // first accept red pack
 if ($user['redPackVal'] == 0 && isset($userData['redPackVal']) == true) {
 	$ret = helper_reward_introducer($unionid);
-	helper_log($ret);
 }
 
 if (isset($roomResult['history']) == true) {

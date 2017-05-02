@@ -32,13 +32,22 @@ if (empty($user) == true) {
 
 $updateData = array('unionid' => $unionid);
 if ($rewardRoomCard) {
-	$updateData['add_roomCardNum'] = $rewardRoomCard;
+	if (isset($user['add_roomCardNum']) == false) {
+		$user['add_roomCardNum'] = 0;
+	}
+	$updateData['add_roomCardNum'] = $user['add_roomCardNum'] + $rewardRoomCard;
 }
 if ($rewardCoin) {
-	$updateData['add_score'] = $rewardCoin;
+	if (isset($user['add_score']) == false) {
+		$user['add_score'] = 0;
+	}
+	$updateData['add_score'] = $user['add_score'] + $rewardCoin;
 }
 if ($rewardRedPack) {
-	$updateData['add_redPackVal'] = $rewardRedPack;
+	if (isset($user['add_redPackVal']) == false) {
+		$user['add_redPackVal'] = 0;
+	}
+	$updateData['add_redPackVal'] = $user['add_redPackVal'] + $rewardRedPack;
 }
 
 $gameData->updateUser($updateData);
