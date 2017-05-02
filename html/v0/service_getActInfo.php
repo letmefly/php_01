@@ -13,10 +13,27 @@ if ($token != "this_token") {
 }
 $gameData = new GameData ();
 $actInfo = $gameData->getActivity();
+
 if (!$actInfo) {
 	$actInfo['activitySwitch'] = 'on';
 	$actInfo['rate_120'] = 33;
 	$actInfo['rate_80'] = 33;
+	$actInfo['rate_40'] = 34;
+}
+
+if (isset($actInfo['activitySwitch']) == false) {
+	$actInfo['activitySwitch'] = 'on';
+}
+
+if (isset($actInfo['rate_120']) == false) {
+	$actInfo['rate_120'] = 33;
+}
+
+if (isset($actInfo['rate_80']) == false) {
+	$actInfo['rate_80'] = 33;
+}
+
+if (isset($actInfo['rate_40']) == false) {
 	$actInfo['rate_40'] = 34;
 }
 

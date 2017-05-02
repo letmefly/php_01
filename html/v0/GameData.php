@@ -118,11 +118,22 @@ class GameData {
 		$originActInfo = $this->getActivity();
 		if (!$originActInfo) {
 			$originActInfo = array();
+			if (isset($originActInfo['activitySwitch']) == false) {
+				$originActInfo['activitySwitch'] = 'on';
+			}
+			if (isset($originActInfo['rate_120']) == false) {
+				$originActInfo['rate_120'] = 33;
+			}
+			if (isset($originActInfo['rate_80']) == false) {
+				$originActInfo['rate_80'] = 33;
+			}
+			if (isset($originActInfo['rate_40']) == false) {
+				$originActInfo['rate_40'] = 34;
+			}
 		}
 		foreach ($activityInfo as $key => $value) {
 			$originActInfo[$key] = $value;
 		}
-
 		$this->ssdb->set("k_activityInfo", json_encode($originActInfo));
 	}
 

@@ -25,7 +25,7 @@ if (isset($msg['rate_80'])) {
 }
 if (isset($msg['rate_40'])) {
 	$activityInfo['rate_40'] = $msg['rate_40'];
-	if ($rate_120 + $rate_80 + $rate_40 != 100) {
+	if ($activityInfo['rate_120'] + $activityInfo['rate_80'] + $activityInfo['rate_40'] != 100) {
 		helper_sendMsg(array('errno' => 1200));
 		helper_log('setting rate invalid');
 		exit();
