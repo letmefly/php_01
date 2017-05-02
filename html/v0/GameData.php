@@ -181,14 +181,17 @@ class GameData {
 		if (isset($user['add_roomCardNum']) && $user['add_roomCardNum'] > 0) {
 			$isAdd = true;
 			$user['roomCardNum'] = $user['roomCardNum'] + $user['add_roomCardNum'];
+			$user['add_roomCardNum'] = 0;
 		}
 		if (isset($user['add_score'] && $user['add_score'] > 0) {
 			$isAdd = true;
 			$user['score'] = $user['score'] + $user['add_score'];
+			$user['add_score'] = 0;
 		}
 		if (isset($user['add_redPackVal'] && $user['add_redPackVal'] > 0) {
 			$isAdd = true;
 			$user['redPackVal'] = $user['redPackVal'] + $user['add_redPackVal'];
+			$user['add_redPackVal'] = 0;
 		}
 		if ($isAdd == true) {
 			$this->ssdb->hset($this->user_set, $this->user_set_prefix.$unionid, json_encode($user));
