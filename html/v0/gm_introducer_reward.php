@@ -41,7 +41,7 @@ if ($rewardRedPack) {
 	$updateData['redPackVal'] = $user['redPackVal'] + $rewardRedPack;
 }
 
-$gameData->updateUser($userData);
+$gameData->updateUser($updateData);
 
 helper_sendMsg(array('errno' => 1000));
 
