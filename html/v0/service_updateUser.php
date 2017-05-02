@@ -30,7 +30,7 @@ if (!$gameData || !$unionid) {
 	helper_log('gameData init fail');
 	exit();
 }
-helper_log(json_encode($msg));
+
 //$gameData->updateUser($userData);
 $user = $gameData->getUser($unionid);
 

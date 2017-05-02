@@ -119,6 +119,8 @@ if ($gameData->isAddCoinToday($unionid) == false) {
 	}
 }
 
+$user = $gameData->addUser_reward($user);
+
 helper_sendMsg(array (
 	'errno' => 1000,
 	'unionid' => $user['unionid'],
