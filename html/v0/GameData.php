@@ -116,9 +116,13 @@ class GameData {
 
 	public function setActivity($activityInfo) {
 		$originActInfo = $this->getActivity();
+		if (!$originActInfo) {
+			$originActInfo = array();
+		}
 		foreach ($activityInfo as $key => $value) {
 			$originActInfo[$key] = $value;
 		}
+
 		$this->ssdb->set("k_activityInfo", json_encode($originActInfo));
 	}
 
