@@ -39,7 +39,8 @@ if ($user['redPackVal'] == 0 && isset($userData['redPackVal']) == true) {
 	$ret = helper_reward_introducer($unionid);
 }
 
-if (isset($roomResult['history']) == true) {
+if (count($roomResult['history']) > 0) {
+	$ret = helper_reward_introducer2($unionid);
 	$gameData->insertRoomResult($unionid, $roomResult);
 }
 

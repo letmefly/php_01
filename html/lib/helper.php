@@ -189,4 +189,14 @@ function helper_getCode($unionid, $amount) {
 	}
 }
 
+function helper_reward_introducer2($unionid) {
+	$timeStamp = time();
+	$privateKey = "test-sign";
+	$tokent = md5($unionid . $timeStamp . $privateKey);
+	$url = "http://127.0.0.1/index.php?r=site/reward-room-card&unionid={$unionid}&op_time={$timeStamp}&token={$tokent}";
+	$ret = helper_getCurl($url);
+	helper_log($ret);
+	return $ret;
+}
+
 ?>
