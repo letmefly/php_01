@@ -16,7 +16,7 @@ if (empty($msg) == true) {
 }
 
 $userData = $msg['userData'];
-$roomResult = $msg['roomResult'];
+
 //$dispatchRedPackVal = $msg['dispatchRedPackVal'];
 $token = $msg['token'];
 if ($token != "this_token") {
@@ -39,10 +39,14 @@ if ($user['redPackVal'] == 0 && isset($userData['redPackVal']) == true) {
 	$ret = helper_reward_introducer($unionid);
 }
 
-if (count($roomResult['history']) > 0) {
-	$ret = helper_reward_introducer2($unionid);
-	$gameData->insertRoomResult($unionid, $roomResult);
+if (isset($msg['roomResult'])) {
+	$roomResult = $msg['roomResult'];
+	if (count($roomResult['history']) > 0) {
+		$ret = helper_reward_introducer2($unionid);
+		$gameData->insertRoomResult($unionid, $roomResult);
+	}
 }
+
 
 if (isset($userData['redPackVal']) == true) {
 	$gameData->addRedPackCount($userData['redPackVal']);

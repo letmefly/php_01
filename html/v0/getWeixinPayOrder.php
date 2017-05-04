@@ -2,6 +2,16 @@
 include_once('../lib/SSDB.php');
 include_once('../lib/helper.php');
 
+function array_to_xml(array $arr, SimpleXMLElement $xml)
+{
+    foreach ($arr as $k => $v) {
+        is_array($v)
+            ? array_to_xml($v, $xml->addChild($k))
+            : $xml->addChild($k, $v);
+    }
+    return $xml;
+}
+
 /*
 $msg = helper_receiveMsg();
 if (empty($msg) == true) {
@@ -34,10 +44,8 @@ $sign = strtoupper(md5($stringA));
 
 $postData['sign'] = $sign;
 
-$xml = new SimpleXMLElement('<root/>');
-array_walk_recursive($postData, array($xml, 'addChild'));
-$postDataXml = $xml->asXML();
+echo array_to_xml($postData, new SimpleXMLElement('<root/>'))->asXML();
 
-$orderInfo = helper_http_post("https://api.mch.weixin.qq.com/pay/unifiedorder", $postDataXml);
-echo $orderInfo;
+//$orderInfo = helper_http_post("https://api.mch.weixin.qq.com/pay/unifiedorder", $postDataXml);
+//echo $orderInfo;
 ?>
