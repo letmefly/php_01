@@ -12,6 +12,21 @@ function array_to_xml(array $arr, SimpleXMLElement $xml)
     return $xml;
 }
 
+function xml_to_array(SimpleXMLElement $parent)
+{
+    $array = array();
+
+    foreach ($parent as $name => $element) {
+        ($node = & $array[$name])
+            && (1 === count($node) ? $node = array($node) : 1)
+            && $node = & $node[];
+
+        $node = $element->count() ? XML2Array($element) : trim($element);
+    }
+
+    return $array;
+}
+
 /*
 $msg = helper_receiveMsg();
 if (empty($msg) == true) {
@@ -47,8 +62,8 @@ $postData['sign'] = $sign;
 $postDataXml = array_to_xml($postData, new SimpleXMLElement('<root/>'))->asXML();
 
 $orderInfoStr = helper_http_post("https://api.mch.weixin.qq.com/pay/unifiedorder", $postDataXml);
-$orderInfo = simplexml_load_string($orderInfoStr);
-
+$xml = simplexml_load_string($orderInfoStr);
+$orderInfo = xml_to_array($xml);
 print_r($orderInfo);
 
 
