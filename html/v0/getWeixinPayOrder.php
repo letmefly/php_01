@@ -46,6 +46,10 @@ $postData['sign'] = $sign;
 
 $postDataXml = array_to_xml($postData, new SimpleXMLElement('<root/>'))->asXML();
 
-$orderInfo = helper_http_post("https://api.mch.weixin.qq.com/pay/unifiedorder", $postDataXml);
-echo $orderInfo;
+$orderInfoStr = helper_http_post("https://api.mch.weixin.qq.com/pay/unifiedorder", $postDataXml);
+$orderInfo = simplexml_load_string($orderInfoStr);
+
+print_r($orderInfo);
+
+
 ?>
