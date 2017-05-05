@@ -36,8 +36,8 @@ function generateRandomString($length = 32) {
     }
     return $randomString;
 }
-
-public function getToken()
+/*
+function getToken()
 {
     $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx71cc6367ecd67fa9&secret=fefc2bb2ebd59b604d198b40854cc872";
     $res = helper_getUrl($url);
@@ -45,7 +45,7 @@ public function getToken()
 }
 
 $token = getToken();
-
+*/
 $msg = helper_receiveMsg();
 if (empty($msg) == true) {
 	helper_sendMsg(array('errno' => 1100));
