@@ -80,7 +80,27 @@ $orderInfoStr = helper_http_post("https://api.mch.weixin.qq.com/pay/unifiedorder
 $xml = simplexml_load_string($orderInfoStr);
 $orderInfo = xml_to_array($xml);
 
-helper_sendMsg($orderInfo);
+$timestamp = strtotime(date(”Y-m-d H:i:s”,time()));
+$tmpData = array(
+	'appid' => "wx71cc6367ecd67fa9",
+	'partnerid' => "1437371002",
+	'prepayid' => $orderInfo['prepay_id'],
+	'package' => "Sign=WXPay",
+	'noncestr' => generateRandomString(),
+	'timestamp' => $timestamp
+);
+$stringA = "";
+foreach ($tmpData as $key => $value) {
+	if ($key != "sign") {
+		$stringA = $stringA . $key . "=" . $value . "&";
+	}
+}
+$stringA = $stringA . "key=14Nt0EmPY6e741Pan5SHmBeiWQQ3wQwE";
+$sign = strtoupper(md5($stringA));
+
+$tmpData['sign'] = $sign;
+
+helper_sendMsg($tmpData);
 
 
 ?>
