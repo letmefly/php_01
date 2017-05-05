@@ -27,22 +27,37 @@ function xml_to_array(SimpleXMLElement $parent)
     return $array;
 }
 
-/*
+function generateRandomString($length = 32) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
+
+
 $msg = helper_receiveMsg();
 if (empty($msg) == true) {
 	helper_sendMsg(array('errno' => 1100));
 	helper_log('receiveMsg invalid');
 	exit();
 }
-*/
+
+$total_fee = $msg['total_fee'];
+$body = $msg['body'];
+$nonce_str = generateRandomString();
+$out_trade_no = generateRandomString();
+
 $postData = array(
 	'appid' => "wx71cc6367ecd67fa9",
 	'attach' => "xxx",
-	'body' => "hello",
+	'body' => $body,
 	'mch_id' => "1437371002",
-	'nonce_str' => "dfdfdefdfadedf",
+	'nonce_str' => $nonce_str,
 	'notify_url' => "https://chess.ifunhealth.com:443/html/v0/weixinPayNotify.php",
-	'out_trade_no' => "dfdfdddfdfefdfdf",
+	'out_trade_no' => $out_trade_no,
 	'spbill_create_ip' => "127.0.0.1",
 	'total_fee' => "1",
 	'trade_type' => "APP",
@@ -64,7 +79,8 @@ $postDataXml = array_to_xml($postData, new SimpleXMLElement('<root/>'))->asXML()
 $orderInfoStr = helper_http_post("https://api.mch.weixin.qq.com/pay/unifiedorder", $postDataXml);
 $xml = simplexml_load_string($orderInfoStr);
 $orderInfo = xml_to_array($xml);
-print_r($orderInfo);
+
+helper_sendMsg($orderInfo);
 
 
 ?>
