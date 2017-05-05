@@ -83,10 +83,10 @@ $orderInfo = xml_to_array($xml);
 $timestamp = strtotime(date("Y-m-d H:i:s",time()));
 $noncestr = generateRandomString();
 $tmpData = array(
+	'noncestr' => $noncestr,
+	'package' => "Sign=WXPay",
 	'partnerid' => "1437371002",
 	'prepayid' => $orderInfo['prepay_id'],
-	'package' => "Sign=WXPay",
-	'noncestr' => $noncestr,
 	'timestamp' => $timestamp
 );
 $stringA = "";
