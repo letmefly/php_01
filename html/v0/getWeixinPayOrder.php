@@ -37,6 +37,14 @@ function generateRandomString($length = 32) {
     return $randomString;
 }
 
+public function getToken()
+{
+    $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx71cc6367ecd67fa9&secret=fefc2bb2ebd59b604d198b40854cc872";
+    $res = helper_getUrl($url);
+    return isset($res['access_token']) ? $res['access_token'] : false;
+}
+
+$token = getToken();
 
 $msg = helper_receiveMsg();
 if (empty($msg) == true) {
@@ -44,6 +52,46 @@ if (empty($msg) == true) {
 	helper_log('receiveMsg invalid');
 	exit();
 }
+
+/*
+$total_fee = $msg['total_fee'];
+$body = $msg['body'];
+$nonce_str = generateRandomString();
+$out_trade_no = generateRandomString();
+$timestamp = strtotime(date("Y-m-d H:i:s",time()));
+
+$ntf_url = "https://chess.ifunhealth.com:443/html/v0/weixinPayNotify.php";
+$package = "bank_type=WX&body={$body}&fee_type=1&input_charset=GBK&notify_url={$ntf_url}&out_trade_no={$out_trade_no}&partner=1437371002&spbill_create_ip=1
+27.0.0.1&total_fee={$total_fee}";
+$tmpPackage = $package . "key=14Nt0EmPY6e741Pan5SHmBeiWQQ3wQwE";
+$sign = strtoupper(md5($tmpPackage));
+$package = $package . "sign={$sign}";
+
+$postData = array(
+	'appid' => "wx71cc6367ecd67fa9",
+	'traceid' => "xxx",
+	'noncestr' => $nonce_str,
+	'package' => $package,
+	'timestamp' => $timestamp
+);
+
+ksort($postData);
+$stringA = "";
+foreach ($postData as $key => $value) {
+	if ($key != "sign") {
+		$stringA = $stringA . $key . "=" . $value . "&";
+	}
+}
+$stringA = $stringA . "key=14Nt0EmPY6e741Pan5SHmBeiWQQ3wQwE";
+$app_signature = strtoupper(md5($stringA));
+$postData['app_signature'] = $app_signature;
+$postData['sign_method'] = "sha1";
+
+$url = "https://api.weixin.qq.com/pay/genprepay?access_token={$token}";
+$orderInfoStr = helper_http_post($url, json_encode($postData));
+echo $orderInfoStr
+*/
+
 
 $total_fee = $msg['total_fee'];
 $body = $msg['body'];
@@ -80,7 +128,7 @@ $orderInfoStr = helper_http_post("https://api.mch.weixin.qq.com/pay/unifiedorder
 $xml = simplexml_load_string($orderInfoStr);
 $orderInfo = xml_to_array($xml);
 
-$timestamp = strtotime(date("Y-m-d H:i:s",time()));
+$timestamp = time();
 $noncestr = generateRandomString();
 $tmpData = array(
 	'appid' => "wx71cc6367ecd67fa9",
@@ -90,6 +138,7 @@ $tmpData = array(
 	'prepayid' => $orderInfo['prepay_id'],
 	'timestamp' => $timestamp
 );
+ksort($tmpData);
 $stringA = "";
 foreach ($tmpData as $key => $value) {
 	if ($key != "sign") {
