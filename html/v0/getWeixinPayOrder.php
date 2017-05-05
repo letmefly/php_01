@@ -100,7 +100,7 @@ $stringA = $stringA . "key=14Nt0EmPY6e741Pan5SHmBeiWQQ3wQwE";
 $sign = strtoupper(md5($stringA));
 
 $tmpData['sign'] = $sign;
-
+$tmpData['errno'] = 1000;
 helper_sendMsg($tmpData);
 
 
