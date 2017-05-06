@@ -37,6 +37,7 @@ function generateRandomString($length = 32) {
     return $randomString;
 }
 
+/*
 function getToken()
 {
     $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx71cc6367ecd67fa9&secret=fefc2bb2ebd59b604d198b40854cc872";
@@ -45,7 +46,7 @@ function getToken()
 }
 
 $token = getToken();
-
+*/
 
 $msg = helper_receiveMsg();
 if (empty($msg) == true) {
@@ -55,7 +56,7 @@ if (empty($msg) == true) {
 }
 
 
-
+/*
 $total_fee = $msg['total_fee'];
 $body = $msg['body'];
 $nonce_str = generateRandomString();
@@ -95,9 +96,9 @@ $postData['sign_method'] = "sha1";
 $url = "https://api.weixin.qq.com/pay/genprepay?access_token={$token}";
 $orderInfoStr = helper_http_post($url, json_encode($postData));
 echo $orderInfoStr
+*/
 
 
-/*
 $total_fee = $msg['total_fee'];
 $body = $msg['body'];
 $nonce_str = generateRandomString();
@@ -156,6 +157,6 @@ $sign = strtoupper(md5($stringA));
 $tmpData['sign'] = $sign;
 $tmpData['errno'] = 1000;
 helper_sendMsg($tmpData);
-*/
+
 
 ?>
