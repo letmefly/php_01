@@ -66,6 +66,7 @@ $ntf_url = "https://chess.ifunhealth.com:443/html/v0/weixinPayNotify.php";
 $package = "bank_type=WX&body={$body}&fee_type=1&input_charset=GBK&notify_url={$ntf_url}&out_trade_no={$out_trade_no}&partner=1437371002&spbill_create_ip=1
 27.0.0.1&total_fee={$total_fee}";
 $tmpPackage = $package . "&key=14Nt0EmPY6e741Pan5SHmBeiWQQ3wQwE";
+helper_log($tmpPackage);
 $sign = strtoupper(md5($tmpPackage));
 $package = $package . "sign={$sign}";
 
