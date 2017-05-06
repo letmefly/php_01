@@ -1,5 +1,10 @@
 <?php
 $DEBUG = false;
+$client_msg_key = "fuck_angelababy";
+$api_url_base = "http://127.0.0.1";
+$api_key = "test_sign";
+
+
 function helper_log($str) {
 	//error_log($str . "\r\n", 3, '/tmp/dizhu.log');
 	file_put_contents('/tmp/dizhu.log',$str."\r\n",FILE_APPEND);
@@ -10,7 +15,7 @@ function helper_receiveMsg() {
 		helper_log('[helper] post data is blank..');
 		return '';
 	}
-    $private_key = "fuck_angelababy"; 	
+	$private_key = $client_msg_key;
 	$msgRaw = json_decode($postdata, true);
 	$msgJson = $msgRaw['msg'];
 	$msgSigh = $msgRaw['sign'];
@@ -33,7 +38,7 @@ function helper_sendMsg($dataArray) {
 		echo $jsonStr;
 		return;
 	}
-	$private_key = "fuck_angelababy";
+	$private_key = $client_msg_key;
 	$msg = array('msg' => $base64Str, 'sign' => md5($base64Str . $private_key));
 	echo json_encode($msg);
 }
@@ -157,9 +162,9 @@ function helper_getCurl($url)
 
 function helper_reward_introducer($unionid) {
 	$timeStamp = time();
-	$privateKey = "test-sign";
+	$privateKey = $api_key;
 	$tokent = md5($unionid . $timeStamp . $privateKey);
-	$url = "http://127.0.0.1/index.php?r=site/reward-introducer&unionid={$unionid}&op_time={$timeStamp}&token={$tokent}";
+	$url = "{$api_url_base}/index.php?r=site/reward-introducer&unionid={$unionid}&op_time={$timeStamp}&token={$tokent}";
 	$ret = helper_getCurl($url);
 	helper_log($ret);
 	return $ret;
@@ -167,9 +172,9 @@ function helper_reward_introducer($unionid) {
 
 function helper_per_redpack_reward($unionid) {
 	$timeStamp = time();
-	$privateKey = "test-sign";
+	$privateKey = $api_key;
 	$tokent = md5($unionid . $timeStamp . $privateKey);
-	$url = "http://127.0.0.1/index.php?r=site/per-redpack-reward&unionid={$unionid}&op_time={$timeStamp}&token={$tokent}";
+	$url = "{$api_url_base}/index.php?r=site/per-redpack-reward&unionid={$unionid}&op_time={$timeStamp}&token={$tokent}";
 	$ret = helper_getCurl($url);
 	helper_log($ret);
 	return $ret;
@@ -177,9 +182,9 @@ function helper_per_redpack_reward($unionid) {
 
 function helper_getCode($unionid, $amount) {
 	$timeStamp = time();
-	$privateKey = "test-sign";
+	$privateKey = $api_key;
 	$tokent = md5($unionid . $amount . $timeStamp . $privateKey);
-	$url = "http://127.0.0.1/index.php?r=site/redeemcode&unionid={$unionid}&amount={$amount}&op_time={$timeStamp}&token={$tokent}";
+	$url = "{$api_url_base}/index.php?r=site/redeemcode&unionid={$unionid}&amount={$amount}&op_time={$timeStamp}&token={$tokent}";
 	$ret = helper_getCurl($url);
 	if ($ret['errno'] == 1000) {
 		return $ret['redeemCode'];
@@ -191,9 +196,9 @@ function helper_getCode($unionid, $amount) {
 
 function helper_reward_introducer2($unionid) {
 	$timeStamp = time();
-	$privateKey = "test-sign";
+	$privateKey = $api_key;
 	$tokent = md5($unionid . $timeStamp . $privateKey);
-	$url = "http://127.0.0.1/index.php?r=site/reward-room-card&unionid={$unionid}&op_time={$timeStamp}&token={$tokent}";
+	$url = "{$api_url_base}/index.php?r=site/reward-room-card&unionid={$unionid}&op_time={$timeStamp}&token={$tokent}";
 	$ret = helper_getCurl($url);
 	helper_log($ret);
 	return $ret;
