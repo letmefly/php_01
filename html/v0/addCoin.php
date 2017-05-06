@@ -63,7 +63,7 @@ if ($platform == "appstore") {
 		}
 	}
 }
-else if ($platform == "android") 
+else if ($platform == "android" || $platform == "ios_weixin") 
 {
 	$record = $gameData->getOutTradeNoRecord($receipt_data);
 	if ($record) {
