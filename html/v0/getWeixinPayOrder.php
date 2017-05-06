@@ -40,7 +40,7 @@ function generateRandomString($length = 32) {
 function getToken()
 {
     $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx71cc6367ecd67fa9&secret=fefc2bb2ebd59b604d198b40854cc872";
-    $res = helper_getUrl($url);
+    $res = helper_getCurl($url);
     return isset($res['access_token']) ? $res['access_token'] : false;
 }
 
