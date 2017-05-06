@@ -158,6 +158,7 @@ $stringA = $stringA . "key={$sign_key}";
 $sign = strtoupper(md5($stringA));
 $tmpData['sign'] = $sign;
 $tmpData['errno'] = 1000;
+$tmpData['out_trade_no'] = $out_trade_no;
 helper_sendMsg($tmpData);
 
 
