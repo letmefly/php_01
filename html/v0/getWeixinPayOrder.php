@@ -115,7 +115,7 @@ $postData = array(
 	'out_trade_no' => $out_trade_no,
 	'sign_type' => 'MD5',
 	'spbill_create_ip' => $_SERVER['REMOTE_ADDR'],
-	'total_fee' => 1,
+	'total_fee' => $total_fee,
 	'trade_type' => "APP",
 );
 ksort($postData);
