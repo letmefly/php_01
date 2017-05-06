@@ -164,7 +164,8 @@ function helper_reward_introducer($unionid) {
 	$timeStamp = time();
 	$privateKey = $GLOBALS['api_key'];
 	$tokent = md5($unionid . $timeStamp . $privateKey);
-	$url = "{$GLOBALS['api_url_base']}/index.php?r=site/reward-introducer&unionid={$unionid}&op_time={$timeStamp}&token={$tokent}";
+	$base_url = $GLOBALS['api_url_base'];
+	$url = "{$base_url}/index.php?r=site/reward-introducer&unionid={$unionid}&op_time={$timeStamp}&token={$tokent}";
 	$ret = helper_getCurl($url);
 	helper_log($ret);
 	return $ret;
@@ -174,7 +175,8 @@ function helper_per_redpack_reward($unionid) {
 	$timeStamp = time();
 	$privateKey = $GLOBALS['api_key'];
 	$tokent = md5($unionid . $timeStamp . $privateKey);
-	$url = "{$GLOBALS['api_url_base']}/index.php?r=site/per-redpack-reward&unionid={$unionid}&op_time={$timeStamp}&token={$tokent}";
+	$base_url = $GLOBALS['api_url_base'];
+	$url = "{$base_url}/index.php?r=site/per-redpack-reward&unionid={$unionid}&op_time={$timeStamp}&token={$tokent}";
 	$ret = helper_getCurl($url);
 	helper_log($ret);
 	return $ret;
@@ -184,7 +186,8 @@ function helper_getCode($unionid, $amount) {
 	$timeStamp = time();
 	$privateKey = $GLOBALS['api_key'];
 	$tokent = md5($unionid . $amount . $timeStamp . $privateKey);
-	$url = "{$GLOBALS['api_url_base']}/index.php?r=site/redeemcode&unionid={$unionid}&amount={$amount}&op_time={$timeStamp}&token={$tokent}";
+	$base_url = $GLOBALS['api_url_base'];
+	$url = "{$base_url}/index.php?r=site/redeemcode&unionid={$unionid}&amount={$amount}&op_time={$timeStamp}&token={$tokent}";
 	$ret = helper_getCurl($url);
 	if ($ret['errno'] == 1000) {
 		return $ret['redeemCode'];
@@ -198,7 +201,8 @@ function helper_reward_introducer2($unionid) {
 	$timeStamp = time();
 	$privateKey = $GLOBALS['api_key'];
 	$tokent = md5($unionid . $timeStamp . $privateKey);
-	$url = "{$api_url_base}/index.php?r=site/reward-room-card&unionid={$unionid}&op_time={$timeStamp}&token={$tokent}";
+	$base_url = $GLOBALS['api_url_base'];
+	$url = "{$base_url}/index.php?r=site/reward-room-card&unionid={$unionid}&op_time={$timeStamp}&token={$tokent}";
 	$ret = helper_getCurl($url);
 	helper_log($ret);
 	return $ret;
