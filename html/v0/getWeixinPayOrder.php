@@ -85,7 +85,7 @@ foreach ($postData as $key => $value) {
 	}
 }
 $stringA = $stringA . "key=14Nt0EmPY6e741Pan5SHmBeiWQQ3wQwE";
-$app_signature = strtoupper(md5($stringA));
+$app_signature = sha1($stringA);
 $postData['app_signature'] = $app_signature;
 $postData['sign_method'] = "sha1";
 
