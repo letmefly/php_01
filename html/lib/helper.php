@@ -1,165 +1,227 @@
 <?php
-include_once('../lib/SSDB.php');
-include_once('../lib/helper.php');
+$DEBUG = false;
+function helper_log($str) {
+	//error_log($str . "\r\n", 3, '/tmp/dizhu.log');
+	file_put_contents('/tmp/dizhu.log',$str."\r\n",FILE_APPEND);
+}
+function helper_receiveMsg() {
+	$postdata = file_get_contents("php://input");
+	if ($postdata == '') {
+		helper_log('[helper] post data is blank..');
+		return '';
+	}
+    $private_key = "fuck_angelababy"; 	
+	$msgRaw = json_decode($postdata, true);
+	$msgJson = $msgRaw['msg'];
+	$msgSigh = $msgRaw['sign'];
+	if (md5($msgJson . $private_key) != $msgSigh) {
+		helper_log('[helper] sign is not right!!');
+		if ($GLOBALS['DEBUG']) {
+			return $msgRaw;
+		}
+		return null;
+	}
+	
+	$msg64 = base64_decode($msgJson);
+	$msg = json_decode($msg64, true);
+	return $msg;
+}
+function helper_sendMsg($dataArray) {
+	$jsonStr = json_encode($dataArray);
+	$base64Str = base64_encode($jsonStr);
+	if ($GLOBALS['DEBUG']) {
+		echo $jsonStr;
+		return;
+	}
+	$private_key = "fuck_angelababy";
+	$msg = array('msg' => $base64Str, 'sign' => md5($base64Str . $private_key));
+	echo json_encode($msg);
+}
+function helper_receiveMsg_2() {
+	$postdata = file_get_contents("php://input");
+	if ($postdata == '') {
+		helper_log('[helper] post data is blank..');
+		return '';
+	}
+	$msg = json_decode($postdata, true);
+	return $msg;
+}
+function helper_sendMsg_2($dataArray) {
+	$msgStr = json_encode($dataArray);
+	echo $msgStr;
+}
+function helper_getInsertSQL($tableName, $dataArray) {
+	$str1 = '';
+	$str2 = '';
+	foreach ($dataArray as $key => $value) {
+		$str1 = $str1 . $key . ',';
+		if (is_string($value)) {
+			$str2 = $str2 . "'" . $value . "'" . ',';
+		} else {
+			$str2 = $str2 . $value . ',';
+		}
+	}
+	$str1 = substr($str1, 0, strlen($str1) - 1);
+	$str2 = substr($str2, 0, strlen($str2) - 1);
+	$sql = "INSERT INTO " . $tableName . " (" . $str1 . ")" . " VALUES " . "(" . $str2 . ")";
+	return $sql;
+}
+function helper_getUpdateSQL($tableName, $keyName, $dataArray) {
+	$str = '';
+	foreach ($dataArray as $key => $value) {
+		if ($key == $keyName) continue;
+		if (is_string($value)) {
+			$str .= $key . "=" . "'" . $value . "'" . ",";
+		} else {
+			$str .= $key . "=" . $value . ",";
+		}
+	}
+	$str = substr($str, 0, strlen($str) - 1);
+	if ($keyName == null) {
+		$sql = "UPDATE " . $tableName . " SET " . $str;
+		return $sql;
+	}
+	$tableKeyValue = $dataArray[$keyName];
+	if (is_string($tableKeyValue)) {
+		$tableKeyValue = "'" . $tableKeyValue . "'";
+	}
+	$sql = "UPDATE " . $tableName . " SET " . $str . " WHERE " . $keyName . "=" . $tableKeyValue;
+	
+	return $sql;
+}
 
-$sign_key = "R4Nt0EmPY6e741Pat5S2df4ixQQ3wQw4";
-function array_to_xml(array $arr, SimpleXMLElement $xml)
+function helper_getIP() {
+	$ip = "";
+	if (getenv("HTTP_CLIENT_IP"))
+		$ip = getenv("HTTP_CLIENT_IP");
+	else if(getenv("HTTP_X_FORWARDED_FOR"))
+		$ip = getenv("HTTP_X_FORWARDED_FOR");
+	else if(getenv("REMOTE_ADDR"))
+		$ip = getenv("REMOTE_ADDR");
+	else 
+		$ip = "";
+	return $ip;
+}
+
+function helper_substr($string, $sublen, $start = 0, $code = 'UTF-8')
 {
-    foreach ($arr as $k => $v) {
-        is_array($v)
-            ? array_to_xml($v, $xml->addChild($k))
-            : $xml->addChild($k, $v);
+    if($code == 'UTF-8')
+    {
+        $pa = "/[\x01-\x7f]|[\xc2-\xdf][\x80-\xbf]|\xe0[\xa0-\xbf][\x80-\xbf]|[\xe1-\xef][\x80-\xbf][\x80-\xbf]|\xf0[\x90-\xbf][\x80-\xbf][\x80-\xbf]|[\xf1-\xf7][\x80-\xbf][\x80-\xbf][\x80-\xbf]/";
+        preg_match_all($pa, $string, $t_string);
+
+        if(count($t_string[0]) - $start > $sublen) return join('', array_slice($t_string[0], $start, $sublen))."..";
+        return join('', array_slice($t_string[0], $start, $sublen));
     }
-    return $xml;
+    else
+    {
+        $start = $start*2;
+        $sublen = $sublen*2;
+        $strlen = strlen($string);
+        $tmpstr = '';
+
+        for($i=0; $i< $strlen; $i++)
+        {
+            if($i>=$start && $i< ($start+$sublen))
+            {
+                if(ord(substr($string, $i, 1))>129)
+                {
+                    $tmpstr.= substr($string, $i, 2);
+                }
+                else
+                {
+                    $tmpstr.= substr($string, $i, 1);
+                }
+            }
+            if(ord(substr($string, $i, 1))>129) $i++;
+        }
+        if(strlen($tmpstr)< $strlen ) $tmpstr.= "...";
+        return $tmpstr;
+    }
 }
 
-function xml_to_array(SimpleXMLElement $parent)
+function helper_getCurl($url)
 {
-    $array = array();
-
-    foreach ($parent as $name => $element) {
-        ($node = & $array[$name])
-            && (1 === count($node) ? $node = array($node) : 1)
-            && $node = & $node[];
-
-        $node = $element->count() ? XML2Array($element) : trim($element);
-    }
-
-    return $array;
+    $curl = curl_init($url);
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0); 
+    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
+    curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1); 
+    curl_setopt($curl, CURLOPT_AUTOREFERER, 1);
+    //curl_setopt($curl, CURLOPT_TIMEOUT, self::TIMEOUT);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    $output = curl_exec($curl);
+    curl_close($curl);
+	return json_decode($output,true);
 }
 
-function generateRandomString($length = 30) {
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $charactersLength = strlen($characters);
-    $randomString = '';
-    for ($i = 0; $i < $length; $i++) {
-        $randomString .= $characters[rand(0, $charactersLength - 1)];
-    }
-    return $randomString;
+function helper_reward_introducer($unionid) {
+	$timeStamp = time();
+	$privateKey = "test-sign";
+	$tokent = md5($unionid . $timeStamp . $privateKey);
+	$url = "http://127.0.0.1/index.php?r=site/reward-introducer&unionid={$unionid}&op_time={$timeStamp}&token={$tokent}";
+	$ret = helper_getCurl($url);
+	helper_log($ret);
+	return $ret;
 }
 
-/*
-function getToken()
-{
-    $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx71cc6367ecd67fa9&secret=fefc2bb2ebd59b604d198b40854cc872";
-    $res = helper_getCurl($url);
-    return isset($res['access_token']) ? $res['access_token'] : false;
+function helper_per_redpack_reward($unionid) {
+	$timeStamp = time();
+	$privateKey = "test-sign";
+	$tokent = md5($unionid . $timeStamp . $privateKey);
+	$url = "http://127.0.0.1/index.php?r=site/per-redpack-reward&unionid={$unionid}&op_time={$timeStamp}&token={$tokent}";
+	$ret = helper_getCurl($url);
+	helper_log($ret);
+	return $ret;
 }
 
-$token = getToken();
-*/
-
-$msg = helper_receiveMsg();
-if (empty($msg) == true) {
-	helper_sendMsg(array('errno' => 1100));
-	helper_log('receiveMsg invalid');
-	exit();
-}
-
-
-/*
-$total_fee = $msg['total_fee'];
-$body = $msg['body'];
-$nonce_str = generateRandomString();
-$out_trade_no = generateRandomString();
-$timestamp = strtotime(date("Y-m-d H:i:s",time()));
-
-$ntf_url = "https://chess.ifunhealth.com:443/html/v0/weixinPayNotify.php";
-$package = "bank_type=WX&body={$body}&fee_type=1&input_charset=UTF-8&notify_url={$ntf_url}&out_trade_no={$out_trade_no}&partner=1437371002&spbill_create_ip=1
-27.0.0.1&total_fee={$total_fee}";
-$tmpPackage = $package . "&key=14Nt0EmPY6e741Pan5SHmBeiWQQ3wQwE";
-$sign = strtoupper(md5($tmpPackage));
-
-$ntf_url = urlencode("https://chess.ifunhealth.com:443/html/v0/weixinPayNotify.php");
-$package = "bank_type=WX&body={$body}&fee_type=1&input_charset=UTF-8&notify_url={$ntf_url}&out_trade_no={$out_trade_no}&partner=1437371002&spbill_create_ip=1
-27.0.0.1&total_fee={$total_fee}&sign={$sign}";
-helper_log($package);
-$postData = array(
-	'appid' => "wx71cc6367ecd67fa9",
-	'traceid' => "xxx",
-	'noncestr' => $nonce_str,
-	'package' => $package,
-	'timestamp' => $timestamp
-);
-
-ksort($postData);
-$stringA = "";
-foreach ($postData as $key => $value) {
-	if ($key != "sign") {
-		$stringA = $stringA . $key . "=" . $value . "&";
+function helper_getCode($unionid, $amount) {
+	$timeStamp = time();
+	$privateKey = "test-sign";
+	$tokent = md5($unionid . $amount . $timeStamp . $privateKey);
+	$url = "http://127.0.0.1/index.php?r=site/redeemcode&unionid={$unionid}&amount={$amount}&op_time={$timeStamp}&token={$tokent}";
+	$ret = helper_getCurl($url);
+	if ($ret['errno'] == 1000) {
+		return $ret['redeemCode'];
+	}
+	else {
+		return "";
 	}
 }
-$stringA = $stringA . "key=14Nt0EmPY6e741Pan5SHmBeiWQQ3wQwE";
-$app_signature = sha1($stringA);
-$postData['app_signature'] = $app_signature;
-$postData['sign_method'] = "sha1";
 
-$url = "https://api.weixin.qq.com/pay/genprepay?access_token={$token}";
-$orderInfoStr = helper_http_post($url, json_encode($postData));
-echo $orderInfoStr
-*/
-
-
-$total_fee = $msg['total_fee'];
-$body = $msg['body'];
-$nonce_str = generateRandomString();
-$out_trade_no = generateRandomString();
-
-$postData = array(
-	'appid' => "wx71cc6367ecd67fa9",
-	'attach' => "xxx",
-	'body' => $body,
-	'mch_id' => "1437371002",
-	'nonce_str' => $nonce_str,
-	'notify_url' => "https://chess.ifunhealth.com:443/html/v0/weixinPayNotify.php",
-	'out_trade_no' => $out_trade_no,
-	'sign_type' => 'MD5',
-	'spbill_create_ip' => $_SERVER['REMOTE_ADDR'],
-	'total_fee' => 1,
-	'trade_type' => "APP",
-);
-ksort($postData);
-$stringA = "";
-foreach ($postData as $key => $value) {
-	if ($key != "sign") {
-		$stringA = $stringA . $key . "=" . $value . "&";
-	}
+function helper_reward_introducer2($unionid) {
+	$timeStamp = time();
+	$privateKey = "test-sign";
+	$tokent = md5($unionid . $timeStamp . $privateKey);
+	$url = "http://127.0.0.1/index.php?r=site/reward-room-card&unionid={$unionid}&op_time={$timeStamp}&token={$tokent}";
+	$ret = helper_getCurl($url);
+	helper_log($ret);
+	return $ret;
 }
-$stringA = $stringA . "key={$sign_key}";
-$sign = strtoupper(md5($stringA));
 
-$postData['sign'] = $sign;
-
-
-$postDataXml = array_to_xml($postData, new SimpleXMLElement('<xml/>'))->asXML();
-
-$orderInfoStr = helper_http_post("https://api.mch.weixin.qq.com/pay/unifiedorder", $postDataXml);
-
-$xml = simplexml_load_string($orderInfoStr);
-$orderInfo = xml_to_array($xml);
-$timestamp = time()."";
-$noncestr = generateRandomString();
-$tmpData = array(
-	'appid' => "wx71cc6367ecd67fa9",
-	'noncestr' => $noncestr,
-	'package' => "Sign=WXPay",
-	'partnerid' => "1437371002",
-	'prepayid' => $orderInfo['prepay_id'],
-	'timestamp' => $timestamp
-);
-ksort($tmpData);
-$stringA = "";
-foreach ($tmpData as $key => $value) {
-	if ($key != "sign") {
-		$stringA = $stringA . $key . "=" . $value . "&";
+function helper_http_post($url, $post_data = '', $timeout = 5){//curl
+	$ch = curl_init();
+	curl_setopt ($ch, CURLOPT_URL, $url);
+	curl_setopt ($ch, CURLOPT_POST, 1);
+	if($post_data != ''){
+	    curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
 	}
+	curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1); 
+	curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+	curl_setopt($ch, CURLOPT_HEADER, false);
+	$file_contents = curl_exec($ch);
+	curl_close($ch);
+	return $file_contents;
 }
-$stringA = $stringA . "key={$sign_key}";
-$sign = strtoupper(md5($stringA));
-$tmpData['sign'] = $sign;
-$tmpData['errno'] = 1000;
-$tmpData['out_trade_no'] = $out_trade_no;
-helper_sendMsg($tmpData);
 
+function helper_http_get($url) {
+	$ch = curl_init();
+	curl_setopt($ch,CURLOPT_URL,$url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_HEADER, 0);
+	$output = curl_exec($ch);
+	curl_close($ch);
+	return $output;
+}
 
 ?>

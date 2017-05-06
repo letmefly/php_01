@@ -2,6 +2,7 @@
 include_once('../lib/SSDB.php');
 include_once('../lib/helper.php');
 
+$sign_key = "R4Nt0EmPY6e741aghjSH4BeixQQ3wQw4";
 function array_to_xml(array $arr, SimpleXMLElement $xml)
 {
     foreach ($arr as $k => $v) {
@@ -27,7 +28,7 @@ function xml_to_array(SimpleXMLElement $parent)
     return $array;
 }
 
-function generateRandomString($length = 32) {
+function generateRandomString($length = 30) {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $charactersLength = strlen($characters);
     $randomString = '';
@@ -112,29 +113,31 @@ $postData = array(
 	'nonce_str' => $nonce_str,
 	'notify_url' => "https://chess.ifunhealth.com:443/html/v0/weixinPayNotify.php",
 	'out_trade_no' => $out_trade_no,
-	'spbill_create_ip' => "127.0.0.1",
-	'total_fee' => "1",
+	'sign_type' => 'MD5',
+	'spbill_create_ip' => $_SERVER['REMOTE_ADDR'],
+	'total_fee' => 1,
 	'trade_type' => "APP",
 );
-
+ksort($postData);
 $stringA = "";
 foreach ($postData as $key => $value) {
 	if ($key != "sign") {
 		$stringA = $stringA . $key . "=" . $value . "&";
 	}
 }
-$stringA = $stringA . "key=14Nt0EmPY6e741Pan5SHmBeiWQQ3wQwE";
+$stringA = $stringA . "key={$sign_key}";
 $sign = strtoupper(md5($stringA));
 
 $postData['sign'] = $sign;
 
-$postDataXml = array_to_xml($postData, new SimpleXMLElement('<root/>'))->asXML();
+
+$postDataXml = array_to_xml($postData, new SimpleXMLElement('<xml/>'))->asXML();
 
 $orderInfoStr = helper_http_post("https://api.mch.weixin.qq.com/pay/unifiedorder", $postDataXml);
+
 $xml = simplexml_load_string($orderInfoStr);
 $orderInfo = xml_to_array($xml);
-
-$timestamp = time();
+$timestamp = time()."";
 $noncestr = generateRandomString();
 $tmpData = array(
 	'appid' => "wx71cc6367ecd67fa9",
@@ -151,9 +154,8 @@ foreach ($tmpData as $key => $value) {
 		$stringA = $stringA . $key . "=" . $value . "&";
 	}
 }
-$stringA = $stringA . "key=14Nt0EmPY6e741Pan5SHmBeiWQQ3wQwE";
+$stringA = $stringA . "key={$sign_key}";
 $sign = strtoupper(md5($stringA));
-
 $tmpData['sign'] = $sign;
 $tmpData['errno'] = 1000;
 helper_sendMsg($tmpData);
