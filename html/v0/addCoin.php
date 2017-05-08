@@ -55,7 +55,7 @@ if (!$gameData) {
 $isValid = false;
 if ($platform == "appstore") {
 	$ret = appstore_verify($receipt_data, 1);
-	if ($ret['status'] == 0 && $ret['bid'] == "com.ywxx.doudizhu8") {
+	if ($ret['status'] == 0 && $ret['receipt']['bid'] == "com.ywxx.doudizhu8") {
 		$val = $gameData->getAppstoreOrderId($ret['receipt']['transaction_id']);
 		if (!($val == 1)) {
 			$isValid = true;
