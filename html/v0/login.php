@@ -118,7 +118,10 @@ if ($gameData->isAddCoinToday($unionid) == false) {
 		$user['score'] = 24;
 	}
 }
-
+$mobile = "0";
+if (isset($user['mobile'])) {
+	$mobile = $user['mobile'];
+}
 $user = $gameData->addUser_reward($user);
 
 helper_sendMsg(array (
@@ -139,7 +142,8 @@ helper_sendMsg(array (
 	'inviteTimes' => $user['inviteTimes'],
 	'redPackVal' => $user['redPackVal'],
 	'redPackSwitch' => $redPackSwitch,
-	'rewardCoinNum' => $rewardCoinNum
+	'rewardCoinNum' => $rewardCoinNum,
+	'mobile' => $mobile
 ));
 
 ?>
