@@ -28,6 +28,11 @@ if (empty($user) == true) {
 	exit();
 }
 
+$mobile = "0";
+if (isset($user['mobile'])) {
+	$mobile = $user['mobile'];
+}
+
 helper_sendMsg(array (
 	'errno' => 1000,
 	'unionid' => $user['unionid'],
@@ -40,7 +45,8 @@ helper_sendMsg(array (
 	'win' => $user['win'],
 	'lose' => $user['lose'],
 	'ip' => $user['ip'],
-	'level' => $user['level']
+	'level' => $user['level'],
+	'mobile' => $mobile
 ));
 
 ?>
