@@ -33,9 +33,9 @@ if (isset($user['mobile'])) {
 	$mobile = $user['mobile'];
 }
 
-$platform = "none";
-if (isset($msg['platform'])) {
-	$platform = $msg['platform'];
+$channel = "none";
+if (isset($msg['channel'])) {
+	$channel = $msg['channel'];
 }
 
 helper_sendMsg(array (
@@ -52,7 +52,7 @@ helper_sendMsg(array (
 	'ip' => $user['ip'],
 	'level' => $user['level'],
 	'mobile' => $mobile,
-	'platform' => $platform
+	'channel' => $channel
 ));
 
 ?>

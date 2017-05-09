@@ -22,9 +22,9 @@ $city = $msg['city'];
 if (isset($msg['urlencode'])) {
 	$nickname = urldecode($nickname);
 }
-$platform = "none";
-if (isset($msg['platform'])) {
-	$platform = $msg['platform'];
+$channel = "none";
+if (isset($msg['channel'])) {
+	$channel = $msg['channel'];
 }
 
 $password = "";
@@ -51,7 +51,7 @@ $userData = array (
 	'city' => $city,
 	'ip' => $clientIp,
 	'password' => $password,
-	'platform' => $platform
+	'channel' => $channel
 );
 
 $user = $gameData->getUser($unionid);
