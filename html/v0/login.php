@@ -22,6 +22,10 @@ $city = $msg['city'];
 if (isset($msg['urlencode'])) {
 	$nickname = urldecode($nickname);
 }
+$platform = "none";
+if (isset($msg['platform'])) {
+	$platform = $msg['platform'];
+}
 
 $password = "";
 $loginType = "weixin";
@@ -46,7 +50,8 @@ $userData = array (
 	'headimgurl' => $headimgurl,
 	'city' => $city,
 	'ip' => $clientIp,
-	'password' => $password
+	'password' => $password,
+	'platform' => $platform
 );
 
 $user = $gameData->getUser($unionid);

@@ -32,6 +32,11 @@ if (isset($user['mobile'])) {
 	$mobile = $user['mobile'];
 }
 
+$platform = "none";
+if (isset($msg['platform'])) {
+	$platform = $msg['platform'];
+}
+
 helper_sendMsg(array (
 	'errno' => 1000,
 	'unionid' => $user['unionid'],
@@ -46,7 +51,8 @@ helper_sendMsg(array (
 	'ip' => $user['ip'],
 	'level' => $user['level'],
 	'userno' => intval($user['userno']),
-	'mobile' => $mobile
+	'mobile' => $mobile,
+	'platform' => $platform
 ));
 
 ?>
