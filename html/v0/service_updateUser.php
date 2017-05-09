@@ -50,7 +50,7 @@ if (isset($msg['roomResult'])) {
 
 if (isset($userData['redPackVal']) == true) {
 	$gameData->addRedPackCount($userData['redPackVal']);
-	$ret = helper_per_redpack_reward($unionid);
+	$ret = helper_per_redpack_reward($unionid, $userData['redPackVal']);
 }
 
 $gameData->updateUser2($user, $userData);
