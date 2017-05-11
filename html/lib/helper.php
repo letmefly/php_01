@@ -176,7 +176,7 @@ function helper_per_redpack_reward($unionid, $redPackVal, $channel) {
 	$privateKey = $GLOBALS['api_key'];
 	$tokent = md5($channel . $unionid . $redPackVal. $timeStamp . $privateKey);
 	$base_url = $GLOBALS['api_url_base'];
-	$url = "{$base_url}/index.php?r=site/per-redpack-reward&channel={$channel}&unionid={$unionid}&redpack_val={$redPackVal}op_time={$timeStamp}&token={$tokent}";
+	$url = "{$base_url}/index.php?r=site/per-redpack-reward&channel={$channel}&unionid={$unionid}&redpack_val={$redPackVal}&op_time={$timeStamp}&token={$tokent}";
 	$ret = helper_getCurl($url);
 	//helper_log($ret);
 	return $ret;
