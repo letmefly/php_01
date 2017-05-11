@@ -33,8 +33,8 @@ if (isset($user['mobile'])) {
 }
 
 $channel = "none";
-if (isset($msg['channel'])) {
-	$channel = $msg['channel'];
+if (isset($user['channel'])) {
+	$channel = $user['channel'];
 }
 
 helper_sendMsg(array (
