@@ -107,6 +107,11 @@ if ($addCoin == 30) {
 $gameData->updateUser($updateData);
 $gameData->addChargeCount($chargeMoney);
 
+$pay_name = "coin_".$addCoin;
+$pay_time = date("Y-m-d H:i:s");
+$amount = $chargeMoney/100;
+helper_recharge_record($unionid, $pay_name, $pay_time, $amount);
+
 helper_sendMsg(array (
 	'errno' => 1000,
 	'coinNum' => $user['score'] + $addCoin
