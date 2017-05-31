@@ -182,12 +182,12 @@ function helper_per_redpack_reward($unionid, $redPackVal, $channel) {
 	return $ret;
 }
 
-function helper_recharge_record($unionid, $pay_name, $pay_time, $amount) {
+function helper_recharge_record($unionid, $pay_name, $pay_time, $amount, $channel) {
 	$timeStamp = time();
 	$privateKey = $GLOBALS['api_key'];
-	$tokent = md5($amount . $pay_name . $pay_time. $unionid . $timeStamp . $privateKey);
+	$tokent = md5($amount . $channel . $pay_name . $pay_time. $unionid . $timeStamp . $privateKey);
 	$base_url = $GLOBALS['api_url_base'];
-	$url = "{$base_url}/index.php?r=site/order&amount={$amount}&pay_name={$pay_name}&pay_time={$pay_time}&unionid={$unionid}&op_time={$timeStamp}&token={$tokent}";
+	$url = "{$base_url}/index.php?r=site/order&amount={$amount}&channel={$channel}&pay_name={$pay_name}&pay_time={$pay_time}&unionid={$unionid}&op_time={$timeStamp}&token={$tokent}";
 	$ret = helper_getCurl($url);
 	//helper_log($ret);
 	return $ret;

@@ -110,7 +110,7 @@ $gameData->addChargeCount($chargeMoney);
 $pay_name = "coin_".$addCoin;
 $pay_time = date("Y-m-d H:i:s");
 $amount = $chargeMoney/100;
-helper_recharge_record($unionid, $pay_name, $pay_time, $amount);
+helper_recharge_record($unionid, $pay_name, $pay_time, $amount, $user['channel']);
 
 helper_sendMsg(array (
 	'errno' => 1000,
