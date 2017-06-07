@@ -49,6 +49,16 @@ if (isset($msg['roomResult'])) {
 
 
 if (isset($userData['redPackVal']) == true) {
+	$lastGetRedPackTime = $user['getRedPackTime'];
+	$nowTime = time();
+	if ($nowTime - $lastGetRedPackTime > 5*60) {
+		$userData['getRedPackTime'] = $nowTime;
+	}
+	else {
+		helper_sendMsg_2(array('errno' => 1001));
+		helper_log('[ERR]this user get redpack less then 5 min');
+		exit();
+	}
 	$gameData->addRedPackCount($userData['redPackVal']);
 	//$ret = helper_per_redpack_reward($unionid, $userData['redPackVal'], $user['channel']);
 }

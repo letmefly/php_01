@@ -32,6 +32,8 @@ class GameData {
 		$user['isInvited'] = 1;
 		$user['inviteTimes'] = 0;
 		$user['redPackVal'] = 0;
+		$user['registerTime'] = date('Y-m-d G:i:s');
+		$user['getRedPackTime'] = time();
 		$user['userno'] = $this->ssdb->hsize($this->user_set)+1+100000;
 		$this->ssdb->hset($this->user_set, $this->user_set_prefix.$user['unionid'], json_encode($user));
 		$this->ssdb->hset($this->userno2unionid_map, ''.$user['userno'], $user['unionid']);
