@@ -29,6 +29,11 @@ if (empty($user) == true) {
 	exit();
 }
 
+if (isset($user['mobile']) == false) {
+	helper_sendMsg(array ('errno' => 1005));
+	exit();
+}
+
 if ($user['redPackVal'] < $redPackMoney) {
 	helper_sendMsg(array ('errno' => 1004));
 	exit();
