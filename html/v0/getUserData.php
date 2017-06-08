@@ -27,16 +27,7 @@ if (empty($user) == true) {
 	helper_sendMsg(array ('errno' => 1003));
 	exit();
 }
-$redPackSwitch = "off";
-if ($clientOS == "ios") {
-	$redPackSwitch = "off";
-}
-else if ($clientOS == "android") {
-	$redPackSwitch = "on";
-}
-else if ($clientOS == "win32") {
-	$redPackSwitch = "on";
-}
+
 $rewardCoinNum = 0;
 if ($gameData->isAddCoinToday($unionid) == false) {
 	if ($user['score'] < 24) {
@@ -76,8 +67,6 @@ helper_sendMsg(array (
 	'userno' => intval($user['userno']),
 	'inviteTimes' => $user['inviteTimes'],
 	'redPackVal' => $user['redPackVal'],
-	'redPackSwitch' => $redPackSwitch,
-	'rewardCoinNum' => $rewardCoinNum,
 	'mobile' => $mobile,
 	'isExchange1Yuan' => $isExchange1Yuan
 ));
