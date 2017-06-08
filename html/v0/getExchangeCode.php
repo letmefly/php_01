@@ -49,6 +49,9 @@ $updateData = array(
 	'unionid' => $user['unionid'],
 	'redPackVal' => $user['redPackVal'] - $redPackMoney
 );
+if ($redPackMoney == 100) {
+	$updateData['isExchange1Yuan'] = 1;
+}
 $gameData->updateUser($updateData);
 
 

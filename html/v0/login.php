@@ -127,6 +127,10 @@ $mobile = "0";
 if (isset($user['mobile'])) {
 	$mobile = $user['mobile'];
 }
+$isExchange1Yuan = 0;
+if (isset($user['isExchange1Yuan'])) {
+	$mobile = $user['isExchange1Yuan'];
+}
 $user = $gameData->addUser_reward($user);
 
 helper_sendMsg(array (
@@ -148,7 +152,8 @@ helper_sendMsg(array (
 	'redPackVal' => $user['redPackVal'],
 	'redPackSwitch' => $redPackSwitch,
 	'rewardCoinNum' => $rewardCoinNum,
-	'mobile' => $mobile
+	'mobile' => $mobile,
+	'isExchange1Yuan' => $isExchange1Yuan
 ));
 
 ?>
