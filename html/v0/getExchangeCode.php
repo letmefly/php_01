@@ -50,7 +50,14 @@ $updateData = array(
 	'redPackVal' => $user['redPackVal'] - $redPackMoney
 );
 if ($redPackMoney == 100) {
-	$updateData['isExchange1Yuan'] = 1;
+	if (isset($updateData['isExchange1Yuan'])==false) {
+		$updateData['isExchange1Yuan'] = 1;
+	}
+	else 
+	{
+		helper_sendMsg(array ('errno' => 1005));
+		exit();
+	}
 }
 $gameData->updateUser($updateData);
 
