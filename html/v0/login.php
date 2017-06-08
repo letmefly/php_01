@@ -129,7 +129,7 @@ if (isset($user['mobile'])) {
 }
 $isExchange1Yuan = 0;
 if (isset($user['isExchange1Yuan'])) {
-	$mobile = $user['isExchange1Yuan'];
+	$isExchange1Yuan = $user['isExchange1Yuan'];
 }
 $user = $gameData->addUser_reward($user);
 
