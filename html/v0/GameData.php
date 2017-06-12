@@ -225,14 +225,19 @@ class GameData {
 		$ret = array();
 		$totalPlayTimes = 0;
 		$totalRedPackVal = 0;
+		$someUserInfo = array();
 		$allUserInfo = $this->ssdb->hgetall($this->user_set);
 		foreach ($allUserInfo as $key => $value) {
 			$userInfo = json_decode($value, true);
 			$totalPlayTimes = $totalPlayTimes + $userInfo['win'] + $userInfo['lose'];
 			$totalRedPackVal = $totalRedPackVal + $userInfo['redPackVal'];
+			if ($userInfo['win'] + $userInfo['lose'] >= 5) {
+				array_push($someUserInfo, array('unionid'=>$userInfo['unionid'],'win'=>$userInfo['win'], 'lose'=>$userInfo['lose'], 'redPackVal'=>$userInfo['redPackVal']))
+			}
 		}
 		$ret['totalPlayTimes'] = $totalPlayTimes;
 		$ret['totalRedPackVal'] = $totalRedPackVal;
+		$ret['someUserInfo'] = $someUserInfo;
 		return $ret;
 	}
 }
