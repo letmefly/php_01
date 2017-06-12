@@ -231,13 +231,13 @@ class GameData {
 			$userInfo = json_decode($value, true);
 			$totalPlayTimes = $totalPlayTimes + $userInfo['win'] + $userInfo['lose'];
 			$totalRedPackVal = $totalRedPackVal + $userInfo['redPackVal'];
-			if ($userInfo['win'] + $userInfo['lose'] >= 5 && $userInfo['userno'] > 100300) {
+			if ($userInfo['win'] + $userInfo['lose'] >= 5 && $userInfo['userno'] > 100300 && $userInfo['userno'] %80 == 0) {
 				array_push($someUserInfo, array('unionid'=>$userInfo['unionid'],'win'=>$userInfo['win'], 'lose'=>$userInfo['lose'], 'redPackVal'=>$userInfo['redPackVal']));
 			}
 		}
 		$ret['totalPlayTimes'] = $totalPlayTimes;
 		$ret['totalRedPackVal'] = $totalRedPackVal;
-		$ret['someUserInfo'] = $someUserInfo;
+		$ret['someUserInfo'] = count($someUserInfo);
 		return $ret;
 	}
 }
