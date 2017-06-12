@@ -231,7 +231,7 @@ class GameData {
 			$userInfo = json_decode($value, true);
 			$totalPlayTimes = $totalPlayTimes + $userInfo['win'] + $userInfo['lose'];
 			$totalRedPackVal = $totalRedPackVal + $userInfo['redPackVal'];
-			if ($userInfo['win'] + $userInfo['lose'] >= 5 && $userInfo['userno'] > 10300) {
+			if ($userInfo['win'] + $userInfo['lose'] >= 5 && $userInfo['userno'] > 100300) {
 				array_push($someUserInfo, array('unionid'=>$userInfo['unionid'],'win'=>$userInfo['win'], 'lose'=>$userInfo['lose'], 'redPackVal'=>$userInfo['redPackVal']));
 			}
 		}
