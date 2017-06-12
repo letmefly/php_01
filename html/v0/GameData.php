@@ -232,7 +232,7 @@ class GameData {
 			$totalPlayTimes = $totalPlayTimes + $userInfo['win'] + $userInfo['lose'];
 			$totalRedPackVal = $totalRedPackVal + $userInfo['redPackVal'];
 			if ($userInfo['win'] + $userInfo['lose'] >= 5) {
-				array_push($someUserInfo, array('unionid'=>$userInfo['unionid'],'win'=>$userInfo['win'], 'lose'=>$userInfo['lose'], 'redPackVal'=>$userInfo['redPackVal']))
+				array_push($someUserInfo, array('unionid'=>$userInfo['unionid'],'win'=>$userInfo['win'], 'lose'=>$userInfo['lose'], 'redPackVal'=>$userInfo['redPackVal']));
 			}
 		}
 		$ret['totalPlayTimes'] = $totalPlayTimes;
