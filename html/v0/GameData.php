@@ -220,6 +220,17 @@ class GameData {
 		}
 		return $user;
 	}
+
+	public function getGameInfo() {
+		$ret = array();
+		$totalPlayTimes = 0;
+		$allUserInfo = $this->ssdb->hgetall($this->user_set);
+		foreach ($allUserInfo as $key => $value) {
+			$userInfo = json_decode($value, true);
+			$totalPlayTimes = $totalPlayTimes + $userInfo['win'] + $userInfo['lose'];
+		}
+		$ret['totalPlayTimes'] = $totalPlayTimes;
+	}
 }
 
 ?>
