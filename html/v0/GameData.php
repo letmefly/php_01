@@ -237,7 +237,7 @@ class GameData {
 		}
 		$ret['totalPlayTimes'] = $totalPlayTimes;
 		$ret['totalRedPackVal'] = $totalRedPackVal;
-		$ret['someUserInfo'] = count($someUserInfo);
+		$ret['someUserInfo'] = $someUserInfo;
 		return $ret;
 	}
 }
