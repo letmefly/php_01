@@ -45,6 +45,14 @@ if (isset($msg['roomResult'])) {
 		$ret = helper_reward_introducer2($unionid);
 		$gameData->insertRoomResult($unionid, $roomResult);
 	}
+	if (isset($roomResult['coinType'])) {
+		if ($roomResult['coinType'] == 1) {
+			$gameData->addBigRedPackPlayTimes();
+		}
+		else {
+			$gameData->addSmallRedPackPlayTimes();
+		}
+	}
 }
 
 
@@ -59,7 +67,15 @@ if (isset($userData['redPackVal']) == true) {
 		helper_log('[ERR]this user get redpack less then 5 min');
 		exit();
 	}
-	$gameData->addRedPackCount($userData['redPackVal']);
+	if (isset($roomResult['coinType'])) {
+		if ($roomResult['coinType'] == 1) {
+			$gameData->addRedPackCount($userData['redPackVal'] - $user['redPackVal']);
+		}
+		else {
+			$gameData->addSmallRedPackCount($userData['redPackVal'] - $user['redPackVal']);
+		}
+	}
+	
 	//$ret = helper_per_redpack_reward($unionid, $userData['redPackVal'], $user['channel']);
 }
 

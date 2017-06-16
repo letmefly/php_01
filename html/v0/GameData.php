@@ -162,6 +162,39 @@ class GameData {
 		$redPackCount = $redPackVal + $redPackCount;
 		$this->ssdb->set("redpack_count", $redPackCount);
 	}
+	public function getSmallRedPackCount() {
+		return $this->ssdb->get("redpack_small_count");
+	}
+	public function addSmallRedPackCount($redPackVal) {
+		$redPackCount = $this->getSmallRedPackCount();
+		if (empty($redPackCount)) {
+			$redPackCount = 0;
+		}
+		$redPackCount = $redPackVal + $redPackCount;
+		$this->ssdb->set("redpack_small_count", $redPackCount);
+	}
+	public function getSmallRedPackPlayTimes() {
+		return $this->ssdb->get("redpack_small_times");
+	}
+	public function addSmallRedPackPlayTimes() {
+		$times = $this->getSmallRedPackPlayTimes();
+		if (empty($times)) {
+			$times = 0;
+		}
+		$times = $times + 1;
+		$this->ssdb->set("redpack_small_times", $times);
+	}
+	public function getBigRedPackPlayTimes() {
+		return $this->ssdb->get("redpack_big_times");
+	}
+	public function addBigRedPackPlayTimes() {
+		$times = $this->getBigRedPackPlayTimes();
+		if (empty($times)) {
+			$times = 0;
+		}
+		$times = $times + 1;
+		$this->ssdb->set("redpack_big_times", $times);
+	}
 	public function getChargeCount() {
 		return $this->ssdb->get("charge_count");
 	}
