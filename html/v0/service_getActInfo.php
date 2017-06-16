@@ -37,9 +37,9 @@ if (isset($actInfo['rate_40']) == false) {
 	$actInfo['rate_40'] = 34;
 }
 
-$actInfo['rate_12'] = 33;
-$actInfo['rate_8'] = 33;
-$actInfo['rate_4'] = 34;
+$actInfo['rate_12'] = 2;
+$actInfo['rate_8'] = 20;
+$actInfo['rate_4'] = 78;
 
 helper_sendMsg_2($actInfo);
 

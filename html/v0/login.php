@@ -114,7 +114,8 @@ else if ($clientOS == "win32") {
 $rewardCoinNum = 0;
 $rewardCoin2Num = 0;
 if ($gameData->isAddCoinToday($unionid) == false) {
-	if ($user['score'] < 24) {
+	/*
+	if ($user['score'] < 24 ) {
 		$rewardCoinNum = 24 - $user['score'];
 		$updateData = array(
 			'unionid' => $unionid,
@@ -123,14 +124,15 @@ if ($gameData->isAddCoinToday($unionid) == false) {
 		$gameData->updateUser($updateData);
 		$user['score'] = 24;
 	}
+	*/
 	if ($user['score2'] < 24) {
-		$rewardCoin2Num = 24 - $user['score2'];
+		$rewardCoin2Num = 35 - $user['score2'];
 		$updateData = array(
 			'unionid' => $unionid,
-			'score2' => 24
+			'score2' => 35
 		);
 		$gameData->updateUser($updateData);
-		$user['score2'] = 24;
+		$user['score2'] = 35;
 	}
 }
 $mobile = "0";
