@@ -28,18 +28,6 @@ if (empty($user) == true) {
 	exit();
 }
 
-$rewardCoinNum = 0;
-if ($gameData->isAddCoinToday($unionid) == false) {
-	if ($user['score'] < 24) {
-		$rewardCoinNum = 24 - $user['score'];
-		$updateData = array(
-			'unionid' => $unionid,
-			'score' => 24
-		);
-		$gameData->updateUser($updateData);
-		$user['score'] = 24;
-	}
-}
 $mobile = "0";
 if (isset($user['mobile'])) {
 	$mobile = $user['mobile'];
@@ -49,7 +37,7 @@ if (isset($user['isExchange1Yuan'])) {
 	$isExchange1Yuan = $user['isExchange1Yuan'];
 }
 $user = $gameData->addUser_reward($user);
-
+$shortNickName = helper_substr($user['nickname'], 4, 0, "UTF-8");
 helper_sendMsg(array (
 	'errno' => 1000,
 	'unionid' => $user['unionid'],
@@ -60,6 +48,7 @@ helper_sendMsg(array (
 	'city' => $user['city'],
 	'roomCardNum' => $user['roomCardNum'],
 	'score' => $user['score'],
+	'score2' => $user['score2'],
 	'win' => $user['win'],
 	'lose' => $user['lose'],
 	'ip' => $user['ip'],

@@ -46,6 +46,7 @@ helper_sendMsg(array (
 	'city' => $user['city'],
 	'roomCardNum' => $user['roomCardNum'],
 	'score' => $user['score'],
+	'score2' => $user['score2'],
 	'win' => $user['win'],
 	'lose' => $user['lose'],
 	'ip' => $user['ip'],

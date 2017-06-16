@@ -34,6 +34,9 @@ if (empty($user) == true) {
 	exit();
 }
 $shortNickName = helper_substr($user['nickname'], 4, 0, "UTF-8");
+if (isset($user['score2']) == false) {
+	$user['score2'] = 1000;
+}
 helper_sendMsg_2(array (
 	'errno' => 1000,
 	'unionid' => $user['unionid'],
@@ -43,6 +46,7 @@ helper_sendMsg_2(array (
 	'city' => $user['city'],
 	'roomCardNum' => $user['roomCardNum'],
 	'score' => $user['score'],
+	'score2' => $user['score2'],
 	'win' => $user['win'],
 	'lose' => $user['lose'],
 	'ip' => $user['ip'],

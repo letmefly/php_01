@@ -112,6 +112,7 @@ else if ($clientOS == "win32") {
 	$redPackSwitch = "on";
 }
 $rewardCoinNum = 0;
+$rewardCoin2Num = 0;
 if ($gameData->isAddCoinToday($unionid) == false) {
 	if ($user['score'] < 24) {
 		$rewardCoinNum = 24 - $user['score'];
@@ -121,6 +122,15 @@ if ($gameData->isAddCoinToday($unionid) == false) {
 		);
 		$gameData->updateUser($updateData);
 		$user['score'] = 24;
+	}
+	if ($user['score2'] < 24) {
+		$rewardCoin2Num = 24 - $user['score2'];
+		$updateData = array(
+			'unionid' => $unionid,
+			'score2' => 24
+		);
+		$gameData->updateUser($updateData);
+		$user['score2'] = 24;
 	}
 }
 $mobile = "0";
@@ -143,6 +153,7 @@ helper_sendMsg(array (
 	'city' => $user['city'],
 	'roomCardNum' => $user['roomCardNum'],
 	'score' => $user['score'],
+	'score2' => $user['score2'],
 	'win' => $user['win'],
 	'lose' => $user['lose'],
 	'ip' => $user['ip'],
@@ -152,6 +163,7 @@ helper_sendMsg(array (
 	'redPackVal' => $user['redPackVal'],
 	'redPackSwitch' => $redPackSwitch,
 	'rewardCoinNum' => $rewardCoinNum,
+	'rewardCoin2Num' => $rewardCoin2Num,
 	'mobile' => $mobile,
 	'isExchange1Yuan' => $isExchange1Yuan
 ));
