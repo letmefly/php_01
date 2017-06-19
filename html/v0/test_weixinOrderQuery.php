@@ -61,5 +61,6 @@ $orderInfoStr = helper_http_post("https://api.mch.weixin.qq.com/pay/orderquery",
 echo $orderInfoStr;
 $xml = simplexml_load_string($orderInfoStr);
 $orderInfo = xml_to_array($xml);
-
+$return_code = $orderInfo['return_code'];
+echo $return_code;
 ?>
