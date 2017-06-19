@@ -72,6 +72,10 @@ else if ($platform == "android" || $platform == "ios_weixin")
 		$gameData->clearOutTradeNoRecord($receipt_data);
 	} else {
 		$isValid = false;
+		$ret = helper_weixin_query($appid, $mch_id, $out_trade_no, $nonce_str, $sign_key);
+		if ($ret == "SUCCESS") {
+			$isValid = true;
+		}
 	}
 }
 

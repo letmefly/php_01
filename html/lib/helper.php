@@ -244,4 +244,65 @@ function helper_http_get($url) {
 	return $output;
 }
 
+function helper_array_to_xml(array $arr, SimpleXMLElement $xml)
+{
+    foreach ($arr as $k => $v) {
+        is_array($v)
+            ? array_to_xml($v, $xml->addChild($k))
+            : $xml->addChild($k, $v);
+    }
+    return $xml;
+}
+
+function helper_xml_to_array(SimpleXMLElement $parent)
+{
+    $array = array();
+
+    foreach ($parent as $name => $element) {
+        ($node = & $array[$name])
+            && (1 === count($node) ? $node = array($node) : 1)
+            && $node = & $node[];
+
+        $node = $element->count() ? XML2Array($element) : trim($element);
+    }
+
+    return $array;
+}
+
+function helper_generateRandomString($length = 30) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
+
+function helper_weixin_query($appid, $mch_id, $out_trade_no, $nonce_str, $sign_key) {
+	$postData = array();
+	$postData['appid'] = $appid;
+	$postData['mch_id'] = $mch_id;
+	$postData['out_trade_no'] = $out_trade_no;
+	$postData['nonce_str'] = $nonce_str;
+	ksort($postData);
+
+	$stringA = "";
+	foreach ($postData as $key => $value) {
+	    if ($key != "sign") {
+	        $stringA = $stringA . $key . "=" . $value . "&";
+	    }
+	}
+	$stringA = $stringA . "key={$sign_key}";
+	$sign = strtoupper(md5($stringA));
+	$postData['sign'] = $sign;
+	$postDataXml = helper_array_to_xml($postData, new SimpleXMLElement('<xml/>'))->asXML();
+
+	$orderInfoStr = helper_http_post("https://api.mch.weixin.qq.com/pay/orderquery", $postDataXml);
+	$xml = simplexml_load_string($orderInfoStr);
+	$orderInfo = helper_xml_to_array($xml);
+	$return_code = $orderInfo['return_code'];
+	return $return_code;
+}
+
 ?>
