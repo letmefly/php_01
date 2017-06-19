@@ -281,9 +281,9 @@ function helper_generateRandomString($length = 31) {
 
 function helper_weixin_query($out_trade_no) {
 	$postData = array();
-	$sign_key = "R4Nt0EmPY6e741Pat5SH4BeixQQ3wQw4";
-	$postData['appid'] = "wx71cc6367ecd67fa9";
-	$postData['mch_id'] = "1437371002";
+	$sign_key = "R4Nt0EmPY6e741Pat6SH4BeixQQ3wQw4";
+	$postData['appid'] = "wx71cc6367ec267fa9";
+	$postData['mch_id'] = "1437311002";
 	$postData['out_trade_no'] = $out_trade_no;
 	$postData['nonce_str'] = helper_generateRandomString();
 	ksort($postData);
