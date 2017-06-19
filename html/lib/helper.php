@@ -269,7 +269,7 @@ function helper_xml_to_array(SimpleXMLElement $parent)
     return $array;
 }
 
-function helper_generateRandomString($length = 30) {
+function helper_generateRandomString($length = 31) {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $charactersLength = strlen($characters);
     $randomString = '';
@@ -279,12 +279,13 @@ function helper_generateRandomString($length = 30) {
     return $randomString;
 }
 
-function helper_weixin_query($appid, $mch_id, $out_trade_no, $nonce_str, $sign_key) {
+function helper_weixin_query($out_trade_no) {
 	$postData = array();
-	$postData['appid'] = $appid;
-	$postData['mch_id'] = $mch_id;
+	$sign_key = "R4Nt0EmPY6e741Pat5SH4BeixQQ3wQw4";
+	$postData['appid'] = "wx71cc6367ecd67fa9";
+	$postData['mch_id'] = "1437371002";
 	$postData['out_trade_no'] = $out_trade_no;
-	$postData['nonce_str'] = $nonce_str;
+	$postData['nonce_str'] = helper_generateRandomString();
 	ksort($postData);
 
 	$stringA = "";
