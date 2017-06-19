@@ -106,12 +106,12 @@ $nonce_str = generateRandomString();
 $out_trade_no = generateRandomString();
 
 $postData = array(
-	'appid' => "wx71cc6367ecd67fa9",
+	'appid' => "wx71cc67ecd6fa9",
 	'attach' => "xxx",
 	'body' => $body,
-	'mch_id' => "1437371002",
+	'mch_id' => "1431002",
 	'nonce_str' => $nonce_str,
-	'notify_url' => "https://chess.ifunhealth.com:443/html/v0/weixinPayNotify.php",
+	'notify_url' => "https:weixinPayNotify.php",
 	'out_trade_no' => $out_trade_no,
 	'sign_type' => 'MD5',
 	'spbill_create_ip' => $_SERVER['REMOTE_ADDR'],
@@ -140,10 +140,10 @@ $orderInfo = xml_to_array($xml);
 $timestamp = time()."";
 $noncestr = generateRandomString();
 $tmpData = array(
-	'appid' => "wx71cc6367ecd67fa9",
+	'appid' => "wx71cc6367e7fa9",
 	'noncestr' => $noncestr,
 	'package' => "Sign=WXPay",
-	'partnerid' => "1437371002",
+	'partnerid' => "1437002",
 	'prepayid' => $orderInfo['prepay_id'],
 	'timestamp' => $timestamp
 );
