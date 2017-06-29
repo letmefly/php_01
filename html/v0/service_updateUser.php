@@ -59,7 +59,7 @@ if (isset($msg['roomResult'])) {
 if (isset($userData['redPackVal']) == true) {
 	$lastGetRedPackTime = $user['getRedPackTime'];
 	$nowTime = time();
-	if ($nowTime - $lastGetRedPackTime > 5*60 || true) {
+	if ($nowTime - $lastGetRedPackTime > 5*60) {
 		$userData['getRedPackTime'] = $nowTime;
 		// insert notice
 		$shortNickName = helper_substr($user['nickname'], 4, 0, "UTF-8");
