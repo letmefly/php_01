@@ -91,10 +91,6 @@ if (empty($user) == true) {
 	exit();
 }
 
-$updateData = array(
-	'unionid' => $unionid,
-	'score' => $user['score'] + $addCoin
-);
 $chargeMoney = 0;
 if ($addCoin == 30) {
 	$chargeMoney = 600;
@@ -109,6 +105,17 @@ if ($addCoin == 30) {
 } else if ($addCoin == 440) {
 	$chargeMoney = 8800;
 }
+
+$gameData->addRewardPool($chargeMoney*0.5);
+
+$updateData = array(
+	'unionid' => $unionid,
+	'score' => $user['score'] + $addCoin,
+	'isAcceptDailyReward' => 0,
+	'rechargeVal' => $user['rechargeVal'] + $chargeMoney,
+	'lastRechargeDate' => date("Y-m-d")
+);
+
 $gameData->updateUser($updateData);
 $gameData->addChargeCount($chargeMoney);
 

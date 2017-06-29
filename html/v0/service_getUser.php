@@ -53,7 +53,12 @@ helper_sendMsg_2(array (
 	'level' => $user['level'],
 	'userno' => intval($user['userno']),
 	'isInvited' => $user['isInvited'],
-	'redPackVal' => $user['redPackVal']
+	'redPackVal' => $user['redPackVal'],
+
+	'lastLoginTime' => $user['lastLoginTime'],
+	'loginDayCount' => $user['loginDayCount'],
+	'todayRedPackCount' => $user['todayRedPackCount'],
+	'lastRechargeDate' => $user['lastRechargeDate']
 ));
 
 ?>

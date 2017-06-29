@@ -57,7 +57,12 @@ helper_sendMsg(array (
 	'inviteTimes' => $user['inviteTimes'],
 	'redPackVal' => $user['redPackVal'],
 	'mobile' => $mobile,
-	'isExchange1Yuan' => $isExchange1Yuan
+	'isExchange1Yuan' => $isExchange1Yuan,
+	'rechargeVal' => $user['rechargeVal'],
+	'lastLoginTime' => $user['lastLoginTime'],
+	'loginDayCount' => $user['loginDayCount'],
+	'todayRedPackCount' => $user['todayRedPackCount'],
+	'lastRechargeDate' => $user['lastRechargeDate']
 ));
 
 ?>

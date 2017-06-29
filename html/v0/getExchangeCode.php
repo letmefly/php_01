@@ -16,6 +16,11 @@ if (empty($msg) == true) {
 $unionid = $msg['unionid'];
 $redPackMoney = $msg['redPackMoney'];
 
+if ($redPackMoney != 600 || $redPackMoney != 1000 || $redPackMoney != 1500) {
+	helper_sendMsg(array ('errno' => 1004));
+	exit();
+}
+
 $gameData = new GameData ();
 if (!$gameData) {
 	helper_sendMsg(array('errno' => 1001));
@@ -36,6 +41,11 @@ if (isset($user['mobile']) == false) {
 
 if ($user['redPackVal'] < $redPackMoney) {
 	helper_sendMsg(array ('errno' => 1004));
+	exit();
+}
+
+if ($user['rechargeVal'] <= 0) {
+	helper_sendMsg(array ('errno' => 1006));
 	exit();
 }
 

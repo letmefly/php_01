@@ -59,8 +59,14 @@ if (isset($msg['roomResult'])) {
 if (isset($userData['redPackVal']) == true) {
 	$lastGetRedPackTime = $user['getRedPackTime'];
 	$nowTime = time();
-	if ($nowTime - $lastGetRedPackTime > 5*60) {
+	if ($nowTime - $lastGetRedPackTime > 5*60 || true) {
 		$userData['getRedPackTime'] = $nowTime;
+		// insert notice
+		$shortNickName = helper_substr($user['nickname'], 4, 0, "UTF-8");
+		$addRedPackVal = $userData['redPackVal'] - $user['redPackVal'];
+		$addRedPackVal = $addRedPackVal/100;
+		$noticeStr = "{$shortNickName}获得了{$addRedPackVal}元现金红包!!";
+		$gameData->addNotice($noticeStr, 2);
 	}
 	else {
 		helper_sendMsg_2(array('errno' => 1001));

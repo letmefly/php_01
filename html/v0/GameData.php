@@ -35,6 +35,12 @@ class GameData {
 		$user['redPackVal'] = 0;
 		$user['registerTime'] = date('Y-m-d G:i:s');
 		$user['getRedPackTime'] = time();
+		$user['loginDayCount'] = 0;
+		$user['todayRedPackCount'] = 0;
+		$user['lastLoginTime'] = "";
+		$user['isAcceptDailyReward'] = 0;
+		$user['rechargeVal'] = 0;
+		$user['lastRechargeDate'] = "";
 		$user['userno'] = $this->ssdb->hsize($this->user_set)+1+100000;
 		$this->ssdb->hset($this->user_set, $this->user_set_prefix.$user['unionid'], json_encode($user));
 		$this->ssdb->hset($this->userno2unionid_map, ''.$user['userno'], $user['unionid']);
@@ -87,7 +93,9 @@ class GameData {
 	public function insertRoomResult($unionid, $roomResult) {
 		$roomResult['t'] =  date('Y-m-d G:i:s');
 		$set_name = $this->roomresult_set_prefix . $unionid;
-		//$size = $ssdb->qsize($set_name);
+		if ($this->ssdb->qsize($set_name) >= 10) {
+			$this->ssdb->qpop_back($set_name);
+		}
 		$itemStr = json_encode($roomResult);
 		$ret = $this->ssdb->qpush_front($set_name, $itemStr);
 		return $ret;
@@ -111,7 +119,7 @@ class GameData {
 		$set_name = "ex_" . $unionid;
 		$ret = $this->ssdb->qrange($set_name, $offset, 30);
 		return $ret;
-	}		
+	}
 
 	public function getUnionid($userno) {
 		return $this->ssdb->hget($this->userno2unionid_map, ''.$userno);
@@ -255,6 +263,23 @@ class GameData {
 		return $user;
 	}
 
+	public function addRewardPool($rewardVal) {
+		if ($this->ssdb->exists('k_rewardPool') == false) {
+			$this->ssdb->set("k_rewardPool", $rewardVal);
+		}
+		else {
+			$this->ssdb->incr("k_rewardPool", $rewardVal);
+		}
+	}
+
+	public function getRewardPoolVal() {
+		$poolVal = $this->ssdb->get("k_rewardPool");
+		if (empty($poolVal)) {
+			$poolVal = 0;
+		}
+		return $poolVal;
+	}
+
 	public function getGameInfo() {
 		$ret = array();
 		$totalPlayTimes = 0;
@@ -274,6 +299,29 @@ class GameData {
 		$ret['someUserInfo'] = $someUserInfo;
 		return $ret;
 	}
+
+	public function addNotice($noticeStr, $level) {
+		if ($level == 1) {
+			if ($this->ssdb->qsize('notice_queue_1') >= 100) {
+				$this->ssdb->qpop_back('notice_queue_1');
+			}
+			$this->ssdb->qpush_front("notice_queue_1", $noticeStr);
+		}
+		else {
+			if ($this->ssdb->qsize('notice_queue_2') >= 100) {
+				$this->ssdb->qpop_back('notice_queue_2');
+			}
+			$this->ssdb->qpush_front("notice_queue_2", $noticeStr);
+		}
+	}
+
+	public function getNoticeList() {
+		$noticeList = array();
+		$noticeList['level_1'] = $this->ssdb->qrange("notice_queue_1", 0, 10);
+		$noticeList['level_2'] = $this->ssdb->qrange("notice_queue_2", 0, 10);
+		return $noticeList;
+	}
 }
 
 ?>
+

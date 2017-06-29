@@ -41,6 +41,10 @@ $actInfo['rate_12'] = 2;
 $actInfo['rate_8'] = 20;
 $actInfo['rate_4'] = 78;
 
+// get reward redpack pool val for dispatching
+$actInfo['rewardPoolVal'] = $gameData->getRewardPoolVal();
+
+
 helper_sendMsg_2($actInfo);
 
 ?>

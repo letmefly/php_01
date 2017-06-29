@@ -84,7 +84,6 @@ else
 		helper_sendMsg(array ('errno' => 5000));
 		exit();
 	}
-	
 }
 
 $user = $gameData->getUser($unionid);
@@ -113,27 +112,43 @@ else if ($clientOS == "win32") {
 }
 $rewardCoinNum = 0;
 $rewardCoin2Num = 0;
+
+$nowDate = date('Y-m-d');
+if ($nowDate != $user['lastLoginTime']) {
+	$updateData = array(
+		'unionid' => $unionid,
+		'lastLoginTime' => $nowDate,
+		'loginDayCount' => $user['loginDayCount'] + 1,
+		'todayRedPackCount' => 0
+	);
+	$gameData->updateUser($updateData);
+	$user['loginDayCount'] = $user['loginDayCount'] + 1;
+}
+
 if ($gameData->isAddCoinToday($unionid) == false) {
-	/*
 	if ($user['score'] < 24 ) {
-		$rewardCoinNum = 24 - $user['score'];
+		$rewardCoinNum = 30 - $user['score'];
 		$updateData = array(
 			'unionid' => $unionid,
-			'score' => 24
+			'score' => 30,
+			'isAcceptDailyReward' => 1
 		);
 		$gameData->updateUser($updateData);
-		$user['score'] = 24;
+		$user['score'] = 30;
 	}
-	*/
+
+	/*
 	if ($user['score2'] < 24) {
 		$rewardCoin2Num = 35 - $user['score2'];
 		$updateData = array(
 			'unionid' => $unionid,
-			'score2' => 35
+			'score2' => 35,
+			'isAcceptDailyReward' => 1
 		);
 		$gameData->updateUser($updateData);
 		$user['score2'] = 35;
 	}
+	*/
 }
 $mobile = "0";
 if (isset($user['mobile'])) {
@@ -167,7 +182,12 @@ helper_sendMsg(array (
 	'rewardCoinNum' => $rewardCoinNum,
 	'rewardCoin2Num' => $rewardCoin2Num,
 	'mobile' => $mobile,
-	'isExchange1Yuan' => $isExchange1Yuan
+	'isExchange1Yuan' => $isExchange1Yuan,
+	'rechargeVal' => $user['rechargeVal'],
+	'lastLoginTime' => $user['lastLoginTime'],
+	'loginDayCount' => $user['loginDayCount'],
+	'todayRedPackCount' => $user['todayRedPackCount'],
+	'lastRechargeDate' => $user['lastRechargeDate']
 ));
 
 ?>
