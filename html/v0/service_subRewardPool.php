@@ -14,6 +14,10 @@ if (empty($msg) == true) {
 	helper_log('receiveMsg invalid');
 	exit();
 }
+$token = $msg['token'];
+if ($token != "this_token") {
+	exit();
+}
 
 $rewardPoolVal = $msg['rewardPoolVal'];
 
