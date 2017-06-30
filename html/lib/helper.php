@@ -302,8 +302,9 @@ function helper_weixin_query($out_trade_no) {
 	$orderInfoStr = helper_http_post("https://api.mch.weixin.qq.com/pay/orderquery", $postDataXml);
 	$xml = simplexml_load_string($orderInfoStr);
 	$orderInfo = helper_xml_to_array($xml);
-	$return_code = $orderInfo['return_code'];
-	return $return_code;
+	//$return_code = $orderInfo['return_code'];
+	//return $return_code;
+	return $orderInfo;
 }
 
 ?>

@@ -233,9 +233,9 @@ class GameData {
 		}
 	}
 
-	public function insertWeixinPayInfo($outTradeNo, $transaction_id, $payInfo) {
+	public function insertWeixinPayInfo($outTradeNo, $transaction_id, $payInfo, $cash_fee) {
 		$this->ssdb->hset("wexin_pay_set", $transaction_id, $payInfo);
-		$this->ssdb->hset("wexin_outTradeNo_set", $outTradeNo, 1);
+		$this->ssdb->hset("wexin_outTradeNo_set", $outTradeNo, intval($cash_fee));
 	}
 
 	public function getOutTradeNoRecord($outTradeNo) {

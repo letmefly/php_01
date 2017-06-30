@@ -43,6 +43,20 @@ $platform = $msg['platform'];
 $addCoin = $msg['addCoin'];
 $receipt_data = $msg['receipt_data'];
 
+$chargeMoney = 0;
+if ($addCoin == 30) {
+	$chargeMoney = 600;
+} else if ($addCoin == 60) {
+	$chargeMoney = 1200;
+} else if ($addCoin == 125) {
+	$chargeMoney = 2500;
+} else if ($addCoin == 200) {
+	$chargeMoney = 4000;
+} else if ($addCoin == 340) {
+	$chargeMoney = 6800;
+} else if ($addCoin == 440) {
+	$chargeMoney = 8800;
+}
 
 $gameData = new GameData ();
 if (!$gameData) {
@@ -65,15 +79,15 @@ if ($platform == "appstore") {
 }
 else if ($platform == "android" || $platform == "ios_weixin") 
 {
-	sleep(3);//wait weixin pay callback
+	//sleep(3);//wait weixin pay callback
 	$record = $gameData->getOutTradeNoRecord($receipt_data);
-	if ($record) {
+	if ($record == $chargeMoney) {
 		$isValid = true;
 		$gameData->clearOutTradeNoRecord($receipt_data);
 	} else {
 		$isValid = false;
 		$ret = helper_weixin_query($receipt_data);
-		if ($ret == "SUCCESS") {
+		if ($ret['return_code'] == "SUCCESS" && $ret['result_code'] == "SUCCESS" && $ret['cash_fee'] == $chargeMoney) {
 			$isValid = true;
 		}
 	}
@@ -91,20 +105,6 @@ if (empty($user) == true) {
 	exit();
 }
 
-$chargeMoney = 0;
-if ($addCoin == 30) {
-	$chargeMoney = 600;
-} else if ($addCoin == 60) {
-	$chargeMoney = 1200;
-} else if ($addCoin == 125) {
-	$chargeMoney = 2500;
-} else if ($addCoin == 200) {
-	$chargeMoney = 4000;
-} else if ($addCoin == 340) {
-	$chargeMoney = 6800;
-} else if ($addCoin == 440) {
-	$chargeMoney = 8800;
-}
 
 $gameData->addRewardPool($chargeMoney*0.05);
 
