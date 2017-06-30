@@ -65,8 +65,10 @@ if (isset($userData['redPackVal']) == true) {
 		$shortNickName = helper_substr($user['nickname'], 4, 0, "UTF-8");
 		$addRedPackVal = $userData['redPackVal'] - $user['redPackVal'];
 		$addRedPackVal = $addRedPackVal/100;
-		$noticeStr = "{$shortNickName}获得了{$addRedPackVal}元现金红包!!";
-		$gameData->addNotice($noticeStr, 2);
+		if ($addRedPackVal > 0) {
+			$noticeStr = "{$shortNickName}获得了{$addRedPackVal}元现金红包!!";
+			$gameData->addNotice($noticeStr, 2);
+		}
 	}
 	else {
 		helper_sendMsg_2(array('errno' => 1001));
