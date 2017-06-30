@@ -25,8 +25,15 @@ class GameData {
 
 	public function addUser($user) {
 		$user['roomCardNum'] = 30;
-		$user['score'] = 100;
-		$user['score2'] = 200;
+		if (substr($user['unionid'], 0, 14) == "score_race_ai_") {
+			$user['score'] = 99999999;
+			$user['score2'] = 99999999;
+		}
+		else {
+			$user['score'] = 36;
+			$user['score2'] = 48;
+		}
+		
 		$user['win'] = 0;
 		$user['lose'] = 0;
 		$user['level'] = 0;

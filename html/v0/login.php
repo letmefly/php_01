@@ -127,14 +127,14 @@ if ($nowDate != $user['lastLoginTime']) {
 
 if ($gameData->isAddCoinToday($unionid) == false) {
 	if ($user['score'] < 24 ) {
-		$rewardCoinNum = 30 - $user['score'];
+		$rewardCoinNum = 24 - $user['score'];
 		$updateData = array(
 			'unionid' => $unionid,
-			'score' => 30,
+			'score' => 24,
 			'isAcceptDailyReward' => 1
 		);
 		$gameData->updateUser($updateData);
-		$user['score'] = 30;
+		$user['score'] = 24;
 	}
 
 	/*

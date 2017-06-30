@@ -106,7 +106,7 @@ if ($addCoin == 30) {
 	$chargeMoney = 8800;
 }
 
-$gameData->addRewardPool($chargeMoney*0.5);
+$gameData->addRewardPool($chargeMoney*0.05);
 
 $updateData = array(
 	'unionid' => $unionid,

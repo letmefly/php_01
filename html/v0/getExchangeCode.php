@@ -16,7 +16,7 @@ if (empty($msg) == true) {
 $unionid = $msg['unionid'];
 $redPackMoney = $msg['redPackMoney'];
 
-if ($redPackMoney != 600 || $redPackMoney != 1000 || $redPackMoney != 1500) {
+if ($redPackMoney != 600 && $redPackMoney != 1000 && $redPackMoney != 1500) {
 	helper_sendMsg(array ('errno' => 1004));
 	exit();
 }
