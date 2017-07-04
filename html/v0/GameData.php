@@ -11,17 +11,106 @@ class GameData {
 	private $userno2unionid_map = 'userno2unionid';
 	private $roomresult_set_prefix = 'roomresult_';
 
+	// mysql
+	private $db_name = "doudizhu";
+	private $db_ip = "127.0.0.1";
+	private $db_user = "root";
+	private $db_pw = "root123!";
+	private $connect;
+
 	function __construct() {
 		try {
 		    $this->ssdb = new SimpleSSDB('127.0.0.1', 9999);
 		} catch(SSDBException $e){
 		    die(__LINE__ . ' ' . $e->getMessage());
 		}
+		$this->connectMysql();
 	}
 
 	function __destruct() {
 		$this->ssdb->close();
+		$this->closeMysql();
 	}
+
+	// mysql
+	function connectMysql() {
+		$this->connect = mysql_connect($this->db_ip, $this->db_user, $this->db_pw);
+		if (!$this->connect) {
+			helper_log("connect mysql fail");
+			return false;
+		}
+		mysql_select_db($this->db_name, $this->connect);
+		return true;
+	}
+	function closeMysql() {
+		mysql_close($this->connect);
+	}
+	public function addUser_mysql($user) {
+		$user['roomCardNum'] = 30;
+		if (substr($user['unionid'], 0, 14) == "score_race_ai_") {
+			$user['score'] = 99999999;
+			$user['score2'] = 99999999;
+		}
+		else {
+			$user['score'] = 36;
+			$user['score2'] = 48;
+		}
+		
+		$user['win'] = 0;
+		$user['lose'] = 0;
+		$user['level'] = 0;
+		$user['isInvited'] = 1;
+		$user['inviteTimes'] = 0;
+		$user['redPackVal'] = 0;
+		$user['registerTime'] = date('Y-m-d G:i:s');
+		$user['getRedPackTime'] = time();
+		$user['loginDayCount'] = 0;
+		$user['todayRedPackCount'] = 0;
+		$user['lastLoginTime'] = "";
+		$user['isAcceptDailyReward'] = 0;
+		$user['rechargeVal'] = 0;
+		$user['lastRechargeDate'] = "";
+		$user['add_score'] = 0;
+		$user['add_roomCardNum'] = 0;
+		$user['add_redPackVal'] = 0;
+		$sql = helper_getInsertSQL("op_user", $user);
+		if (!mysql_query($sql, $this->connect)) {
+			helper_log("insertUser failed ". $sql);
+			return false;
+		}
+		return true;
+	}
+	public function getUser_mysql($unionid) {
+		if (!$this->connect) {
+			helper_log("connect invalid");
+			return false;
+		}
+		$sql = "SELECT * FROM op_user WHERE unionid={$unionid}";
+		$result = mysql_query($sql, $this->connect);
+		if (!$result) {
+			helper_log("select failed");
+			return false;
+		}
+		$row = mysql_fetch_array($result, MYSQL_ASSOC);
+		return $row;
+	}
+	public function updateUser_mysql($userData) {
+		if (!$userData['unionid']) {
+			helper_log("param invalid");
+			return false;
+		}
+		if (!$this->connect) {
+			helper_log("connect invalid");
+			return false;
+		}
+		$sql = helper_getUpdateSQL("op_user", "unionid", $userData);
+		if (!mysql_query($sql, $this->connect)) {
+			helper_log("updateUser failed");
+			return false;
+		}
+		return true;
+	}
+
 
 	public function addUser($user) {
 		$user['roomCardNum'] = 30;
@@ -48,9 +137,15 @@ class GameData {
 		$user['isAcceptDailyReward'] = 0;
 		$user['rechargeVal'] = 0;
 		$user['lastRechargeDate'] = "";
+		$user['add_score'] = 0;
+		$user['add_roomCardNum'] = 0;
+		$user['add_redPackVal'] = 0;
 		$user['userno'] = $this->ssdb->hsize($this->user_set)+1+100000;
 		$this->ssdb->hset($this->user_set, $this->user_set_prefix.$user['unionid'], json_encode($user));
 		$this->ssdb->hset($this->userno2unionid_map, ''.$user['userno'], $user['unionid']);
+
+		// mysql
+		$this->addUser_mysql($user);
 	}
 
 	public function getUser($unionid) {
@@ -78,6 +173,9 @@ class GameData {
 			$user[$key] = $value;
 		}
 		$this->ssdb->hset($this->user_set, $this->user_set_prefix.$unionid, json_encode($user));
+
+		// mysql 
+		$this->updateUser_mysql($data);
 	}
 
 	public function updateUser($data) {
@@ -89,12 +187,11 @@ class GameData {
 		$user = $this->getUser($unionid);
 		foreach ($data as $key => $value) {
 			$user[$key] = $value;
-
-			//if (isset($user[$key]) || $key=='userno' || $key=='isInvited' || $key == "inviteTimes") {
-			//	$user[$key] = $value;
-			//}
 		}
 		$this->ssdb->hset($this->user_set, $this->user_set_prefix.$unionid, json_encode($user));
+
+		// mysql
+		$this->updateUser_mysql($data);
 	}
 
 	public function insertRoomResult($unionid, $roomResult) {
@@ -266,6 +363,17 @@ class GameData {
 		}
 		if ($isAdd == true) {
 			$this->ssdb->hset($this->user_set, $this->user_set_prefix.$unionid, json_encode($user));
+			// mysql
+			$updateData = array(
+				'unionid' => $user['unionid'],
+				'roomCardNum' => $user['roomCardNum'],
+				'add_roomCardNum' => $user['add_roomCardNum'],
+				'score' => $user['score'],
+				'add_score' => $user['add_score'],
+				'redPackVal' => $user['redPackVal'],
+				'add_redPackVal' => $user['add_redPackVal']
+			);
+			$this->updateUser_mysql($updateData);
 		}
 		return $user;
 	}
