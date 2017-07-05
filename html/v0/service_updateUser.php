@@ -100,7 +100,7 @@ if (isset($userData['redPackVal']) == true) {
 }
 
 if (isset($userData['playTurn']) && isset($userData['redPackVal'])) {
-	$gameData->getRedpackRecord_mysql(array(
+	$gameData->addRedpackRecord_mysql(array(
 		'userno' => $user['userno'],
 		'unionid' => $user['unionid'],
 		'nickname' => $user['nickname'],

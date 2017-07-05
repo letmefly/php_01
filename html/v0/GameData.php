@@ -118,8 +118,8 @@ class GameData {
 		}
 		return true;
 	}
-	public function getRedpackRecord_mysql($redpackRecord) {
-		$sql = helper_getInsertSQL("op_getRedpack_record", $rechargeRecord);
+	public function addRedpackRecord_mysql($redpackRecord) {
+		$sql = helper_getInsertSQL("op_getRedpack_record", $redpackRecord);
 		if (!mysql_query($sql, $this->connect)) {
 			helper_log("insert op_recharge_record failed ". $sql);
 			return false;
