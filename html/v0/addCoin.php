@@ -110,7 +110,7 @@ if($isValid == false) {
 		'score' => $user['score'],
 		'redPackVal' => $user['redPackVal'],
 		'rechargeVal' => $user['rechargeVal'],
-		'rechargeMoney' => $user['rechargeMoney'],
+		'rechargeMoney' => $chargeMoney,
 		'status' => 0,
 		'loginDayCount' => $user['loginDayCount']
 	));
@@ -142,7 +142,7 @@ $gameData->addRechargeRecord_mysql(array(
 	'score' => $user['score'],
 	'redPackVal' => $user['redPackVal'],
 	'rechargeVal' => $user['rechargeVal'],
-	'rechargeMoney' => $user['rechargeMoney'],
+	'rechargeMoney' => $chargeMoney,
 	'status' => 1,
 	'loginDayCount' => $user['loginDayCount']
 ));
