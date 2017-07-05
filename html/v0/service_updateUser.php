@@ -105,7 +105,7 @@ if (isset($userData['playTurn']) && isset($userData['redPackVal'])) {
 		'unionid' => $user['unionid'],
 		'nickname' => $user['nickname'],
 		'coinVal' => $userData['coinVal'],
-		'redPackVal' => $userData['redPackVal'],
+		'redPackVal' => $userData['redPackVal'] - $user['redPackVal'],
 		'playTurn' => $userData['playTurn'],
 		'getTime' => date('Y-m-d G:i:s')
 	));
