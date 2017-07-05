@@ -93,18 +93,29 @@ else if ($platform == "android" || $platform == "ios_weixin")
 	}
 }
 
-if($isValid == false) {
-	helper_sendMsg(array('errno' => 1001));
-	helper_log('order invalid');
-	exit();	
-}
-
 $user = $gameData->getUser($unionid);
 if (empty($user) == true) {
 	helper_sendMsg(array ('errno' => 1003));
 	exit();
 }
 
+
+if($isValid == false) {
+	helper_sendMsg(array('errno' => 1001));
+	helper_log('order invalid');
+	$gameData->addRechargeRecord_mysql(array(
+		'userno' => $user['userno'],
+		'unionid' => $user['unionid'],
+		'nickname' => $user['nickname'],
+		'score' => $user['score'],
+		'redPackVal' => $user['redPackVal'],
+		'rechargeVal' => $user['rechargeVal'],
+		'rechargeMoney' => $user['rechargeMoney'],
+		'status' => 0,
+		'loginDayCount' => $user['loginDayCount']
+	));
+	exit();	
+}
 
 $gameData->addRewardPool($chargeMoney*0.05);
 
@@ -123,6 +134,18 @@ $pay_name = "coin_".$addCoin;
 $pay_time = date("Y-m-d H:i:s");
 $amount = $chargeMoney/100;
 helper_recharge_record($unionid, $pay_name, $pay_time, $amount, $user['channel']);
+
+$gameData->addRechargeRecord_mysql(array(
+	'userno' => $user['userno'],
+	'unionid' => $user['unionid'],
+	'nickname' => $user['nickname'],
+	'score' => $user['score'],
+	'redPackVal' => $user['redPackVal'],
+	'rechargeVal' => $user['rechargeVal'],
+	'rechargeMoney' => $user['rechargeMoney'],
+	'status' => 1,
+	'loginDayCount' => $user['loginDayCount']
+));
 
 helper_sendMsg(array (
 	'errno' => 1000,

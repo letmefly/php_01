@@ -44,6 +44,18 @@ if (isset($msg['roomResult'])) {
 	if (count($roomResult['history']) > 0) {
 		$ret = helper_reward_introducer2($unionid);
 		$gameData->insertRoomResult($unionid, $roomResult);
+		//mysql 
+		/*
+		$gameData->addGameResult_mysql(array(
+			'userno' => $user['userno'],
+			'unionid' => $user['unionid'],
+			'nickname' => $user['nickname'],
+			'duringTime' => $roomResult['duringTime'],
+			'loseScore' => $user['loseScore'],
+			'isOffline' => 0,
+			'date' => date('Y-m-d G:i:s')
+		));
+		*/
 	}
 	if (isset($roomResult['coinType'])) {
 		if ($roomResult['coinType'] == 1) {
@@ -85,6 +97,18 @@ if (isset($userData['redPackVal']) == true) {
 	}
 	
 	//$ret = helper_per_redpack_reward($unionid, $userData['redPackVal'], $user['channel']);
+}
+
+if (isset($userData['playTurn']) && isset($userData['redPackVal'])) {
+	$gameData->getRedpackRecord_mysql(array(
+		'userno' => $user['userno'],
+		'unionid' => $user['unionid'],
+		'nickname' => $user['nickname'],
+		'coinVal' => $userData['coinVal'],
+		'redPackVal' => $userData['redPackVal'],
+		'playTurn' => $userData['playTurn'],
+		'getTime' => date('Y-m-d G:i:s')
+	));
 }
 
 $gameData->updateUser2($user, $userData);

@@ -110,6 +110,30 @@ class GameData {
 		}
 		return true;
 	}
+	public function addRechargeRecord_mysql($rechargeRecord) {
+		$sql = helper_getInsertSQL("op_recharge_record", $rechargeRecord);
+		if (!mysql_query($sql, $this->connect)) {
+			helper_log("insert op_recharge_record failed ". $sql);
+			return false;
+		}
+		return true;
+	}
+	public function getRedpackRecord_mysql($redpackRecord) {
+		$sql = helper_getInsertSQL("op_getRedpack_record", $rechargeRecord);
+		if (!mysql_query($sql, $this->connect)) {
+			helper_log("insert op_recharge_record failed ". $sql);
+			return false;
+		}
+		return true;
+	}
+	public function addGameResult_mysql($gameResult) {
+		$sql = helper_getInsertSQL("op_user_game_record", $gameResult);
+		if (!mysql_query($sql, $this->connect)) {
+			helper_log("insert op_user_game_record failed ". $sql);
+			return false;
+		}
+		return true;
+	}
 
 
 	public function addUser($user) {
