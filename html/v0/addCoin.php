@@ -81,7 +81,7 @@ else if ($platform == "android" || $platform == "ios_weixin")
 {
 	//sleep(3);//wait weixin pay callback
 	$record = $gameData->getOutTradeNoRecord($receipt_data);
-	if ($record == $chargeMoney) {
+	if ($record == $chargeMoney && $record > 0) {
 		$isValid = true;
 		$gameData->clearOutTradeNoRecord($receipt_data);
 	} else {
@@ -91,6 +91,10 @@ else if ($platform == "android" || $platform == "ios_weixin")
 			$isValid = true;
 		}
 	}
+}
+else {
+	helper_sendMsg(array ('errno' => 1003));
+	exit();
 }
 
 $user = $gameData->getUser($unionid);
