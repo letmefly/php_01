@@ -69,6 +69,9 @@ if (isset($msg['roomResult'])) {
 
 
 if (isset($userData['redPackVal']) == true) {
+	if ($userData['redPackVal'] - $user['redPackVal'] > 120) {
+		$userData['redPackVal'] = $user['redPackVal'] + 120;
+	}
 	$lastGetRedPackTime = $user['getRedPackTime'];
 	$nowTime = time();
 	if ($nowTime - $lastGetRedPackTime > 5*60 - 20) {
