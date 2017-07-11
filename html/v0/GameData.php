@@ -135,6 +135,15 @@ class GameData {
 		return true;
 	}
 
+	public function insertWeixinOrderInfo_mysql($orderInfo) {
+		$sql = helper_getInsertSQL("op_wexin_pay_record", $orderInfo);
+		if (!mysql_query($sql, $this->connect)) {
+			helper_log("insert op_user_game_record failed ". $sql);
+			return false;
+		}
+		return true;
+	}
+
 
 	public function addUser($user) {
 		$user['roomCardNum'] = 30;

@@ -33,6 +33,7 @@ if ($sign == $rowdata['sign'] && $rowdata['return_code'] = "SUCCESS") {
 	$cash_fee = $rowdata['cash_fee'];
 	$gameData = new GameData ();
 	$gameData->insertWeixinPayInfo($outTradeNo, $transaction_id, json_encode($rowdata), $cash_fee);
+	$gameData->insertWeixinOrderInfo_mysql($rowdata);
 } else {
 	helper_log("sign is not right");
 }
