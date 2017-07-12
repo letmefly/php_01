@@ -51,6 +51,7 @@ if (isset($msg['roomResult'])) {
 			$shortName = $roomResult['history'][$i]['n'];
 			if ($myShortName == $shortName) {
 				$gameAddCoin = $roomResult['history'][$i]['s'];
+				$gameAddCoin = floor($gameAddCoin*0.666);
 			}
 		}
 		//mysql 
