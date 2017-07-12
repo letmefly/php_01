@@ -31,6 +31,9 @@ if ($sign == $rowdata['sign'] && $rowdata['return_code'] = "SUCCESS") {
 	$outTradeNo = $rowdata['out_trade_no'];
 	$transaction_id = $rowdata['transaction_id'];
 	$cash_fee = $rowdata['cash_fee'];
+	if (isset($rowdata['attach'])==false) {
+		$rowdata['attach'] = "none";
+	}
 	$gameData = new GameData ();
 	$gameData->insertWeixinPayInfo($outTradeNo, $transaction_id, json_encode($rowdata), $cash_fee);
 	$gameData->insertWeixinOrderInfo_mysql($rowdata);
