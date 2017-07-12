@@ -115,6 +115,10 @@ if (isset($userData['playTurn']) && isset($userData['redPackVal'])) {
 }
 
 if (isset($userData['score'])) {
+	$way = "game";
+	if (isset($userData['playTurn']) && isset($userData['redPackVal'])) {
+		$way = "redpack";
+	}
 	$addScoreLog = array(
 		'unionid' => $user['unionid'],
 		'nickname' => $user['nickname'],
@@ -122,10 +126,10 @@ if (isset($userData['score'])) {
 		'old_score' => $user['score'],
 		'add_score' => $userData['score'] - $user['score'],
 		'now_score' => $userData['score'],
-		'add_way' => "game"
+		'add_way' => $way
 	);
 	$gameData->insertAddScoreLog_mysql($addScoreLog);
-	
+
 	if ($userData['score'] - $user['score'] > 16) {
 		$userData['score'] = $user['score']+16;
 	}
