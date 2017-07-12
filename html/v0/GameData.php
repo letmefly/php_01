@@ -403,7 +403,7 @@ class GameData {
 				'now_score' => $user['score'] + $user['add_score'],
 				'add_way' => "houtai"
 			);
-			$gameData->insertAddScoreLog_mysql($addScoreLog);
+			$this->insertAddScoreLog_mysql($addScoreLog);
 
 			$isAdd = true;
 			$user['score'] = $user['score'] + $user['add_score'];
