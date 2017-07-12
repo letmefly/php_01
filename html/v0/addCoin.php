@@ -56,6 +56,8 @@ if ($addCoin == 30) {
 	$chargeMoney = 6800;
 } else if ($addCoin == 440) {
 	$chargeMoney = 8800;
+} else {
+	$addCoin = 0;
 }
 
 $gameData = new GameData ();
@@ -130,6 +132,19 @@ $updateData = array(
 	'rechargeVal' => $user['rechargeVal'] + $chargeMoney,
 	'lastRechargeDate' => date("Y-m-d")
 );
+
+if (isset($updateData['score'])) {
+	$addScoreLog = array(
+		'unionid' => $user['unionid'],
+		'nickname' => $user['nickname'],
+		'time' => date('Y-m-d G:i:s'),
+		'old_score' => $user['score'],
+		'add_score' => $updateData['score'] - $user['score'],
+		'now_score' => $updateData['score'],
+		'add_way' => "recharge"
+	);
+	$gameData->insertAddScoreLog_mysql($addScoreLog);
+}
 
 $gameData->updateUser($updateData);
 $gameData->addChargeCount($chargeMoney);

@@ -114,6 +114,19 @@ if (isset($userData['playTurn']) && isset($userData['redPackVal'])) {
 	));
 }
 
+if (isset($userData['score'])) {
+	$addScoreLog = array(
+		'unionid' => $user['unionid'],
+		'nickname' => $user['nickname'],
+		'time' => date('Y-m-d G:i:s'),
+		'old_score' => $user['score'],
+		'add_score' => $userData['score'] - $user['score'],
+		'now_score' => $userData['score'],
+		'add_way' => "game"
+	);
+	$gameData->insertAddScoreLog_mysql($addScoreLog);
+}
+
 $gameData->updateUser2($user, $userData);
 
 helper_sendMsg_2(array('errno' => 1000));

@@ -144,6 +144,15 @@ class GameData {
 		return true;
 	}
 
+	public function insertAddScoreLog_mysql($addScoreLog) {
+		$sql = helper_getInsertSQL("op_score_log", $addScoreLog);
+		if (!mysql_query($sql, $this->connect)) {
+			helper_log("insert op_score_log failed ". $sql);
+			return false;
+		}
+		return true;
+	}
+
 
 	public function addUser($user) {
 		$user['roomCardNum'] = 30;
@@ -385,6 +394,17 @@ class GameData {
 			$user['add_roomCardNum'] = 0;
 		}
 		if (isset($user['add_score']) && $user['add_score'] > 0) {
+			$addScoreLog = array(
+				'unionid' => $user['unionid'],
+				'nickname' => $user['nickname'],
+				'time' => date('Y-m-d G:i:s'),
+				'old_score' => $user['score'],
+				'add_score' => $user['add_score'],
+				'now_score' => $user['score'] + $user['add_score'],
+				'add_way' => "houtai"
+			);
+			$gameData->insertAddScoreLog_mysql($addScoreLog);
+
 			$isAdd = true;
 			$user['score'] = $user['score'] + $user['add_score'];
 			$user['add_score'] = 0;
