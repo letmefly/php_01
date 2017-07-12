@@ -28,7 +28,7 @@ if (!$gameData) {
 	exit();
 }
 
-$gameData->addRewardPoolVal($rewardPoolVal*-1);
+$gameData->addRewardPool($rewardPoolVal*-1);
 
 helper_sendMsg_2(array('errno' => 1000));
 
