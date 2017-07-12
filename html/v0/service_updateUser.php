@@ -39,11 +39,20 @@ if ($user['redPackVal'] == 0 && isset($userData['redPackVal']) == true) {
 	$ret = helper_reward_introducer($unionid);
 }
 
+$gameAddCoin = 0;
+
 if (isset($msg['roomResult'])) {
 	$roomResult = $msg['roomResult'];
 	if (count($roomResult['history']) > 0) {
+		$myShortName = helper_substr($user['nickname'], 4, 0, "UTF-8");
 		$ret = helper_reward_introducer2($unionid);
 		$gameData->insertRoomResult($unionid, $roomResult);
+		for ($i=0; $i < count($roomResult['history']); $i++) { 
+			$shortName = $roomResult['history'][$i]['n'];
+			if ($myShortName == $shortName) {
+				$gameAddCoin = $roomResult['history'][$i]['s'];
+			}
+		}
 		//mysql 
 		/*
 		$gameData->addGameResult_mysql(array(
@@ -118,6 +127,7 @@ if (isset($userData['score'])) {
 	$way = "game";
 	if (isset($userData['playTurn']) && isset($userData['redPackVal'])) {
 		$way = "redpack";
+		$userData['score'] = $user['score']+$userData['coinVal'];
 	}
 	$addScoreLog = array(
 		'unionid' => $user['unionid'],
@@ -130,6 +140,7 @@ if (isset($userData['score'])) {
 	);
 	$gameData->insertAddScoreLog_mysql($addScoreLog);
 
+	$userData['score'] = $gameAddCoin + $user['score'];
 	if ($userData['score'] - $user['score'] > 16) {
 		$userData['score'] = $user['score']+2;
 	}
