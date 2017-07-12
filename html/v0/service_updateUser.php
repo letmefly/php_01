@@ -131,8 +131,11 @@ if (isset($userData['score'])) {
 	$gameData->insertAddScoreLog_mysql($addScoreLog);
 
 	if ($userData['score'] - $user['score'] > 16) {
-		$userData['score'] = $user['score']+16;
+		$userData['score'] = $user['score']+2;
 	}
+	//if ($userData['score'] > 80) {
+	//	$userData['score'] = 80;
+	//}
 }
 
 $gameData->updateUser2($user, $userData);

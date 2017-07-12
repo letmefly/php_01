@@ -49,6 +49,11 @@ if ($user['rechargeVal'] <= 0) {
 	exit();
 }
 
+if ($user['score'] > 80)  {
+	helper_sendMsg(array ('errno' => 1003));
+	exit();
+}
+
 $exchangeCode = helper_getCode($user['unionid'], $redPackMoney);
 if ($exchangeCode == "") {
 	helper_sendMsg(array ('errno' => 1003));
