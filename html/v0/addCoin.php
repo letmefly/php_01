@@ -118,7 +118,8 @@ if($isValid == false) {
 		'rechargeVal' => $user['rechargeVal'],
 		'rechargeMoney' => $chargeMoney,
 		'status' => 0,
-		'loginDayCount' => $user['loginDayCount']
+		'loginDayCount' => $user['loginDayCount'],
+		'time' => date('Y-m-d G:i:s')
 	));
 	exit();	
 }

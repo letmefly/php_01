@@ -48,6 +48,7 @@ function helper_receiveMsg_2() {
 		helper_log('[helper] post data is blank..');
 		return '';
 	}
+	helper_log($postdata);
 	$msg = json_decode($postdata, true);
 	return $msg;
 }

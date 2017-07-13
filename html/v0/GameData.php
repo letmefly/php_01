@@ -408,6 +408,7 @@ class GameData {
 			$isAdd = true;
 			$user['score'] = $user['score'] + $user['add_score'];
 			$user['add_score'] = 0;
+			$user['rechargeVal'] = $user['rechargeVal'] + 1;
 		}
 		if (isset($user['add_redPackVal']) && $user['add_redPackVal'] > 0) {
 			$isAdd = true;
