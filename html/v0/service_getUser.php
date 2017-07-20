@@ -37,6 +37,11 @@ $shortNickName = helper_substr($user['nickname'], 4, 0, "UTF-8");
 if (isset($user['score2']) == false) {
 	$user['score2'] = 1000;
 }
+
+if (isset($user['totalGetRedPackVal']) == false) {
+	$user['totalGetRedPackVal'] = 0;
+}
+
 helper_sendMsg_2(array (
 	'errno' => 1000,
 	'unionid' => $user['unionid'],
@@ -58,7 +63,9 @@ helper_sendMsg_2(array (
 	'lastLoginTime' => $user['lastLoginTime'],
 	'loginDayCount' => $user['loginDayCount'],
 	'todayRedPackCount' => $user['todayRedPackCount'],
-	'lastRechargeDate' => $user['lastRechargeDate']
+	'lastRechargeDate' => $user['lastRechargeDate'],
+	'rechargeVal' => $user['rechargeVal'],
+	'totalGetRedPackVal' => $user['totalGetRedPackVal']
 ));
 
 ?>

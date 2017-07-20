@@ -62,6 +62,7 @@ class GameData {
 		$user['isInvited'] = 1;
 		$user['inviteTimes'] = 0;
 		$user['redPackVal'] = 0;
+		$user['totalGetRedPackVal'] = 0;
 		$user['registerTime'] = date('Y-m-d G:i:s');
 		$user['getRedPackTime'] = time();
 		$user['loginDayCount'] = 0;

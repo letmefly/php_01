@@ -76,10 +76,14 @@ if ($cmd == "cmd_addRedpack") {
 			$gameData->addSmallRedPackCount($coinVal);
 		}
 	}
+	if (isset($user['totalGetRedPackVal']) == false) {
+		$user['totalGetRedPackVal'] = 0;
+	}
 	$updateData = array(
 		'unionid' => $unionid,
 		'score' => $user['score'] + $coinVal,
 		'redPackVal' => $user['redPackVal'] + $cashVal,
+		'totalGetRedPackVal' => $user['totalGetRedPackVal'] + $cashVal,
 		'todayRedPackCount' => $user['todayRedPackCount'] + 1
 	);
 	$gameData->updateUser2($user, $updateData);
