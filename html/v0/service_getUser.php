@@ -42,6 +42,10 @@ if (isset($user['totalGetRedPackVal']) == false) {
 	$user['totalGetRedPackVal'] = 0;
 }
 
+if (isset($user['todayRechargeVal']) == false) {
+	$user['todayRechargeVal'] = 0;
+}
+
 helper_sendMsg_2(array (
 	'errno' => 1000,
 	'unionid' => $user['unionid'],
