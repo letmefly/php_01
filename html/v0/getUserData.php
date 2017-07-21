@@ -36,6 +36,9 @@ $isExchange1Yuan = 0;
 if (isset($user['isExchange1Yuan'])) {
 	$isExchange1Yuan = $user['isExchange1Yuan'];
 }
+if (isset($user['todayRechargeVal']) == false) {
+	$user['todayRechargeVal'] = 0;
+}
 $user = $gameData->addUser_reward($user);
 $shortNickName = helper_substr($user['nickname'], 4, 0, "UTF-8");
 helper_sendMsg(array (
@@ -62,7 +65,8 @@ helper_sendMsg(array (
 	'lastLoginTime' => $user['lastLoginTime'],
 	'loginDayCount' => $user['loginDayCount'],
 	'todayRedPackCount' => $user['todayRedPackCount'],
-	'lastRechargeDate' => $user['lastRechargeDate']
+	'lastRechargeDate' => $user['lastRechargeDate'],
+	'todayRechargeVal' => $user['todayRechargeVal']	
 ));
 
 ?>
