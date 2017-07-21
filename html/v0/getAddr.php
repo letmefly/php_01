@@ -1,5 +1,11 @@
 <?php
 include_once('../lib/helper.php');
+
+$clientIp = helper_getIP();
+if ($clientIp != "60.186.204.149") {
+	exit();
+}
+
 $msg = helper_receiveMsg();
 if (empty($msg) == true) {
 	helper_sendMsg(array('errno' => 1100));
