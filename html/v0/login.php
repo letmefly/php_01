@@ -119,7 +119,8 @@ if ($nowDate != $user['lastLoginTime']) {
 		'unionid' => $unionid,
 		'lastLoginTime' => $nowDate,
 		'loginDayCount' => $user['loginDayCount'] + 1,
-		'todayRedPackCount' => 0
+		'todayRedPackCount' => 0,
+		'todayRechargeVal' => 0
 	);
 	$gameData->updateUser($updateData);
 	$user['loginDayCount'] = $user['loginDayCount'] + 1;

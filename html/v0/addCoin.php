@@ -126,11 +126,28 @@ if($isValid == false) {
 
 $gameData->addRewardPool($chargeMoney*0.05);
 
+if (isset($user['lastRechargeDate'])==false) {
+	$user['lastRechargeDate'] = "";
+}
+if (isset($user['todayRechargeVal'])==false) {
+	$user['todayRechargeVal'] = 0;
+}
+
+// first recharge ad 45 coins
+if ($user['rechargeVal'] == 0 && $addCoin == 30) {
+	$addCoin = 45;
+}
+// today first recharge
+else if ($user['todayRechargeVal'] == 0 && $addCoin == 30) {
+	$addCoin = 45;
+}
+
 $updateData = array(
 	'unionid' => $unionid,
 	'score' => $user['score'] + $addCoin,
 	'isAcceptDailyReward' => 0,
 	'rechargeVal' => $user['rechargeVal'] + $chargeMoney,
+	'todayRechargeVal' => $user['todayRechargeVal'] + $chargeMoney,
 	'lastRechargeDate' => date("Y-m-d")
 );
 

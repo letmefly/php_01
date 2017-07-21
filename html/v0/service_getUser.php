@@ -65,7 +65,8 @@ helper_sendMsg_2(array (
 	'todayRedPackCount' => $user['todayRedPackCount'],
 	'lastRechargeDate' => $user['lastRechargeDate'],
 	'rechargeVal' => $user['rechargeVal'],
-	'totalGetRedPackVal' => $user['totalGetRedPackVal']
+	'totalGetRedPackVal' => $user['totalGetRedPackVal'],
+	'todayRechargeVal' => $user['todayRechargeVal']
 ));
 
 ?>

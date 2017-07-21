@@ -179,6 +179,7 @@ class GameData {
 		$user['lastLoginTime'] = "";
 		$user['isAcceptDailyReward'] = 0;
 		$user['rechargeVal'] = 0;
+		$user['todayRechargeVal'] = 0;
 		$user['lastRechargeDate'] = "";
 		$user['add_score'] = 0;
 		$user['add_roomCardNum'] = 0;
