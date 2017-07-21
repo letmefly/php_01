@@ -94,6 +94,9 @@ else if ($platform == "android" || $platform == "ios_weixin")
 		}
 	}
 }
+else if ($platform == "win32") {
+	$isValid = true;
+}
 else {
 	helper_sendMsg(array ('errno' => 1003));
 	exit();
