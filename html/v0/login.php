@@ -124,6 +124,8 @@ if ($nowDate != $user['lastLoginTime']) {
 	);
 	$gameData->updateUser($updateData);
 	$user['loginDayCount'] = $user['loginDayCount'] + 1;
+	$user['todayRedPackCount'] = 0;
+	$user['todayRechargeVal'] = 0;
 }
 
 if ($gameData->isAddCoinToday($unionid) == false) {
