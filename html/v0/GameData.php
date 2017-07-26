@@ -106,7 +106,7 @@ class GameData {
 		}
 		$sql = helper_getUpdateSQL("op_user", "unionid", $userData);
 		if (!mysql_query($sql, $this->connect)) {
-			helper_log("updateUser failed");
+			helper_log("updateUser failed: ".$sql);
 			return false;
 		}
 		return true;
