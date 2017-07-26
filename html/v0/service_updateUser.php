@@ -39,6 +39,23 @@ if ($user['redPackVal'] == 0 && isset($userData['redPackVal']) == true) {
 	$ret = helper_reward_introducer($unionid);
 }
 
+// clear user yesterday data
+$nowDate = date('Y-m-d');
+if ($nowDate != $user['lastLoginTime']) {
+	$updateData = array(
+		'unionid' => $unionid,
+		'lastLoginTime' => $nowDate,
+		'loginDayCount' => $user['loginDayCount'] + 1,
+		'todayRedPackCount' => 0,
+		'todayRechargeVal' => 0
+	);
+	$gameData->updateUser($updateData);
+	$user['loginDayCount'] = $user['loginDayCount'] + 1;
+	$user['todayRedPackCount'] = 0;
+	$user['todayRechargeVal'] = 0;
+}
+
+
 $gameAddCoin = 0;
 
 if (isset($msg['roomResult'])) {
